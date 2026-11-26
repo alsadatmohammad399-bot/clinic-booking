@@ -311,7 +311,7 @@ body.signup .tabs,body.signup #kpisD,body.signup #bkSec{display:none}
      أو من اللينك: ?name=اسم العيادة&doc=اسم الدكتور&wa=20100xxxxxxx */
   var q = new URLSearchParams(location.search);
   var PLATFORM_WA = '201015861991', PAY_VC='01015861991', PAY_IP='ghazal223@instapay'; /* رقم واتساب صاحب المنصة لاستقبال طلبات تسجيل الأطباء (ضعه هنا) */
-  var ENDPOINT = q.get('ep')||'https://script.google.com/macros/s/AKfycbwgAuQs_QFNnzDph9QDCpIYS-k3AXME8wtlULVHibuG2Tdf4lOcHvqg7mnfGgmd_c9rXg/exec';
+  var ENDPOINT = q.get('ep')||'https://script.google.com/macros/s/AKfycbyBEaWNHT1yNNXG2THg54-R6IxdCDaMqgX8LrB0-oumLRA7uD418skNPE3HumhZQYA3vA/exec';
   var REG = !!q.get('name');
   var saved = {};try{saved=JSON.parse(localStorage.getItem('gz_clinic_cfg')||'{}')}catch(e){}
   if(REG)saved={};
@@ -638,7 +638,7 @@ body.signup .tabs,body.signup #kpisD,body.signup #bkSec{display:none}
       else lockUI('عيادة '+esc(CFG.clinic)+' لسه متفعلتش.<br>الصفحة بتشتغل بعد تأكيد الدفع من غزالو.',true);
     }).catch(function(){lockUI('مقدرناش نتحقق من التفعيل دلوقتي، افتح اللينك تاني بعد شوية.',false)});
   }
-  function newCid(){return Math.random().toString(36).slice(2,8)+Date.now().toString(36).slice(-3)}
+  var _cid0='';function newCid(){return _cid0||(_cid0=Math.random().toString(36).slice(2,8)+Date.now().toString(36).slice(-3))}
   function val(id){return $(id).value.trim()}
   function signupSave(){
     var okE=false,msg='';
