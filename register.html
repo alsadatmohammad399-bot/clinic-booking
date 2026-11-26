@@ -7,12 +7,17 @@ h1{font-size:27px;line-height:1.5;margin:6px 0 8px;color:#f7e08b}p{color:#b9ae8c
 .pr{background:#14141a;border:1px dashed #d4af37;border-radius:16px;padding:14px;margin:8px 0;font-size:15px;line-height:2}
 .fab{position:fixed;left:0;right:0;bottom:18px;display:flex;justify-content:center;z-index:5;pointer-events:none}
 .fab a{pointer-events:auto;position:relative;overflow:hidden;display:inline-block;text-decoration:none;font-weight:900;font-size:20px;color:#1a1405;background:linear-gradient(135deg,#f6e18e,#d4af37);padding:18px 46px;border-radius:99px;animation:fl 2.4s ease-in-out infinite,gl 2.4s ease-in-out infinite}
-.fab a:active{transform:scale(.95)}
+.fab{gap:10px}.fab a.sec{background:#14141a;color:#f7e08b;border:2px solid #d4af37;padding:16px 26px;font-size:18px}.fab a:active{transform:scale(.95)}
 .fab a:after{content:"";position:absolute;top:0;bottom:0;width:40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);animation:sh 2.8s ease-in-out infinite}
 @keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @keyframes sh{0%{left:-60%}60%,100%{left:130%}}
 @keyframes gl{0%,100%{box-shadow:0 12px 26px -8px rgba(212,175,55,.6),0 0 0 0 rgba(212,175,55,.4)}50%{box-shadow:0 20px 36px -8px rgba(212,175,55,.9),0 0 0 12px rgba(212,175,55,0)}}
 @media(prefers-reduced-motion:reduce){.fab a,.fab a:after{animation:none}}
+#lgm{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:50;padding:18px}#lgm.on{display:flex}
+#lgm .bx{background:#14141a;border:1px solid #d4af37;border-radius:20px;padding:22px;width:100%;max-width:380px;text-align:right}
+#lgm input{width:100%;padding:14px;margin:6px 0 10px;border-radius:12px;border:1px solid #2c2a22;background:#0b0b0d;color:#f5e6b8;font-size:16px;direction:ltr;text-align:right}
+#lgm button{width:100%;padding:14px;border-radius:14px;border:0;font-weight:900;font-size:17px;background:linear-gradient(135deg,#f6e18e,#d4af37);color:#1a1405;margin-top:4px}
+#lgm .x{background:none;color:#b9ae8c;font-weight:400;font-size:14px}#lgmsg{color:#ff8a8a;min-height:22px;font-size:14px}
 </style></head><body>
 <div class="lg">غ</div>
 <h1>سجّل عيادتك على منصة غزالو</h1>
@@ -25,5 +30,31 @@ h1{font-size:27px;line-height:1.5;margin:6px 0 8px;color:#f7e08b}p{color:#b9ae8c
 <div class="pr"><b>الاشتراك:</b> 300 جنيه في الشهر<br>عرض أول 3 دكاترة: 150 جنيه في الشهر<br>السنوي: 3000 جنيه (شهرين هدية)</div>
 <p style="font-size:14px">بعد التسجيل بتدفع وصفحتك بتتفعّل بعد تأكيد الدفع</p>
 <p style="margin-top:18px"><a href="app.html" style="color:#e5c35a;font-size:15px">شوف نموذج لصفحة حجز عيادة ←</a></p>
-<div class="fab"><a href="app.html#signup">سجّل الآن ✨</a></div>
-</body></html>
+<div class="fab"><a href="app.html#signup">سجّل الآن ✨</a><a href="#login" id="lgBtn" class="sec">دخول 🔑</a></div>
+<div id="lgm"><div class="bx"><h2 style="margin:0 0 8px;color:#f7e08b">تسجيل دخول الدكتور</h2>
+<label>رقم الواتساب اللي سجلت بيه</label><input id="lgP" type="tel" inputmode="tel" placeholder="01XXXXXXXXX">
+<label>كلمة السر</label><input id="lgW" type="password" autocomplete="current-password">
+<div id="lgmsg"></div><button id="lgGo" type="button">دخول</button>
+<button class="x" id="lgX" type="button">إلغاء</button>
+<p style="font-size:13.5px;margin:10px 0 0;text-align:center">معندكش حساب؟ <a href="app.html#signup" style="color:#e5c35a">سجّل الآن</a></p></div></div>
+<script>
+var EP='https://script.google.com/macros/s/AKfycbyBEaWNHT1yNNXG2THg54-R6IxdCDaMqgX8LrB0-oumLRA7uD418skNPE3HumhZQYA3vA/exec';
+function $(i){return document.getElementById(i)}
+function opn(){$('lgm').classList.add('on')}
+$('lgBtn').onclick=function(e){e.preventDefault();opn()};
+$('lgX').onclick=function(){$('lgm').classList.remove('on')};
+if(location.hash==='#login')opn();
+function sha(t){return crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return ('0'+x.toString(16)).slice(-2)}).join('')})}
+$('lgGo').onclick=function(){
+  var p=$('lgP').value.replace(/[\s\-]/g,''),w=$('lgW').value,m=$('lgmsg'),b=$('lgGo');
+  if(!/^01[0125]\d{8}$/.test(p)){m.textContent='اكتب رقم واتساب صحيح (11 رقم)';return}
+  if(!w){m.textContent='اكتب كلمة السر';return}
+  m.textContent='';b.textContent='جاري الدخول…';
+  sha(p.slice(-10)+':'+w).then(function(h){return fetch(EP+'?act=login&p='+p+'&h='+h+'&_='+Date.now())}).then(function(r){return r.json()}).then(function(j){
+    b.textContent='دخول';
+    if(j&&j.found&&j.link){var u=j.link.split('#')[0]+'#doctor';m.style.color='#7be3a1';m.textContent='أهلاً! جاري فتح عيادتك…';location.href=u}
+    else if(j&&j.error==='locked')m.textContent='محاولات كتير غلط، جرّب بعد ساعة';
+    else m.textContent='الرقم أو كلمة السر غلط. لو لسه مسجلتش اضغط "سجّل الآن".';
+  }).catch(function(){b.textContent='دخول';m.textContent='حصلت مشكلة في الاتصال، جرّب تاني'});
+};
+</script></body></html>
