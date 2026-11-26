@@ -12,10 +12,10 @@ button,a.b{border:0;border-radius:12px;padding:12px 16px;font:inherit;font-weigh
 #msg{text-align:center;color:#a79d80;padding:20px}
 </style></head><body><h1>لوحة إدارة غزالو 🔐</h1><div id="msg">جاري التحميل…</div><div id="list"></div>
 <script>
-var EP='https://script.google.com/macros/s/AKfycbwgAuQs_QFNnzDph9QDCpIYS-k3AXME8wtlULVHibuG2Tdf4lOcHvqg7mnfGgmd_c9rXg/exec',K=decodeURIComponent(location.hash.slice(1));
+var EP='https://script.google.com/macros/s/AKfycbyBEaWNHT1yNNXG2THg54-R6IxdCDaMqgX8LrB0-oumLRA7uD418skNPE3HumhZQYA3vA/exec',K=decodeURIComponent(location.hash.slice(1));
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 var LBL={PENDING:'في انتظار الدفع',ACTIVE:'مفعّلة',INACTIVE:'موقوفة'};
-function call(q){return fetch(EP+'?k='+encodeURIComponent(K)+q).then(function(r){return r.json()})}
+function call(q){return fetch(EP+'?k='+encodeURIComponent(K)+q+'&_='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()})}
 function draw(j){
   var m=document.getElementById('msg'),l=document.getElementById('list');
   if(!j||!j.ok){m.textContent='اللينك غير صحيح';l.innerHTML='';return}
