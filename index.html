@@ -184,6 +184,9 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
 .sv-row .rm{background:#3a1d1d;color:#ff8c7d;border-radius:10px;height:42px;font-size:16px}
 .sv-h{display:grid;grid-template-columns:1fr 78px 58px 34px;gap:6px;font-size:12px;color:var(--muted);margin-bottom:4px}
 .logo img{width:100%;height:100%;object-fit:cover;border-radius:12px}
+body.reg #statsD,body.reg #chipsD,body.reg #rateD{display:none}
+body.reg .hero{padding-bottom:40px}
+body.signup #kpisD,body.signup #bkSec{display:none}
 .foot{text-align:center;color:var(--muted);font-size:12.5px;padding:30px 18px 0}
 .foot b{color:var(--acc)}
 .fab{position:fixed;bottom:0;left:0;right:0;z-index:20;padding:12px 18px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(0deg,var(--bg) 60%,transparent);max-width:560px;margin:0 auto;display:flex}
@@ -211,14 +214,14 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
         <div>
           <h1 id="docName">د. منى الشافعي</h1>
           <p id="docTitle">استشاري الأمراض الجلدية والتجميل</p>
-          <div class="rate"><span class="star">★★★★★</span> <span>4.9</span><span style="opacity:.7;font-weight:600">(+320 تقييم)</span></div>
+          <div class="rate" id="rateD"><span class="star">★★★★★</span> <span>4.9</span><span style="opacity:.7;font-weight:600">(+320 تقييم)</span></div>
         </div>
       </div>
       <button class="cta" id="ctaTop" type="button">احجز موعدك الآن</button>
       <div class="cbar" id="cbar"></div>
     </div>
 
-    <div class="stats">
+    <div class="stats" id="statsD">
       <div class="stat"><b>+12</b><span>سنة خبرة</span></div>
       <div class="stat"><b>+5000</b><span>حالة</span></div>
       <div class="stat"><b>30 د</b><span>مدة الكشف</span></div>
@@ -227,8 +230,8 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
     <section>
       <h2>عن الدكتورة</h2>
       <div class="about">
-        استشارية جلدية وتجميل، متخصصة في علاج تساقط الشعر والصلع الوراثي وحب الشباب والتصبغات. بنوفر لك كشف دقيق وخطة علاج واضحة من أول زيارة.
-        <div class="chips"><span class="chip">تساقط الشعر</span><span class="chip">حقن PRP</span><span class="chip">ليزر</span><span class="chip">حب الشباب</span><span class="chip">تجميل</span></div>
+        <span id="aboutTxt">استشارية جلدية وتجميل، متخصصة في علاج تساقط الشعر والصلع الوراثي وحب الشباب والتصبغات. بنوفر لك كشف دقيق وخطة علاج واضحة من أول زيارة.</span>
+        <div class="chips" id="chipsD"><span class="chip">تساقط الشعر</span><span class="chip">حقن PRP</span><span class="chip">ليزر</span><span class="chip">حب الشباب</span><span class="chip">تجميل</span></div>
       </div>
     </section>
 
@@ -241,23 +244,23 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
       <h2>مواعيد العمل والعنوان</h2>
       <div class="info">
         <div class="irow"><i>📍</i><div><b id="addr">شارع الشهيد أحمد حمدي، أمام المحافظة، الإسماعيلية</b><small>الدور الثالث، شقة 8، يوجد أسانسير</small></div></div>
-        <div class="irow"><i>🕓</i><div class="hours" style="flex:1"><div><span>السبت - الخميس</span><b>4 م - 10 م</b></div><div><span>الجمعة</span><b style="color:var(--red)">إجازة</b></div></div></div>
+        <div class="irow"><i>🕓</i><div class="hours" style="flex:1"><div><span>السبت - الخميس</span><b id="hoursL">4 م - 10 م</b></div><div><span>الجمعة</span><b style="color:var(--red)">إجازة</b></div></div></div>
         <div class="irow"><i>📞</i><div><b>للاستفسار والحجز بالتليفون</b><div id="phonesL" class="phl" style="margin-top:4px"></div></div></div>
         <div class="irow"><i>💳</i><div><b>طرق الدفع</b><small id="payL"></small></div></div>
       </div>
     </section>
-    <div class="foot">نسخة تجريبية من <b>منصة غزالو للعيادات</b><br>حجز أونلاين لعيادتك بدون رسائل ومكالمات</div>
+    <div class="foot"><span id="footTxt">نسخة تجريبية من <b>منصة غزالو للعيادات</b><br>حجز أونلاين لعيادتك بدون رسائل ومكالمات</span><button class="btn" id="goSignup" type="button" style="width:100%;flex:none;margin-top:16px">أنت دكتور؟ سجّل عيادتك الآن</button></div>
     <div class="fab"><button class="cta" id="ctaFab" type="button">احجز موعدك الآن</button></div>
   </div>
 
   <!-- doctor view -->
   <div class="adm" id="admin">
     <div class="hero" style="padding-bottom:26px">
-      <span class="badge"><span class="dot"></span> لوحة الدكتور (تجريبية)</span>
-      <h1 style="margin:14px 0 4px;font-size:24px;font-weight:800">حجوزات النهارده</h1>
-      <p style="margin:0;color:#cfe5e2;font-size:14px">كل حجز بيوصلك هنا فورًا ومعاه زر واتساب للمريض</p>
+      <span class="badge"><span class="dot"></span> <span id="admBadge">لوحة الدكتور (تجريبية)</span></span>
+      <h1 id="admH" style="margin:14px 0 4px;font-size:24px;font-weight:800">حجوزات النهارده</h1>
+      <p id="admP" style="margin:0;color:#cfe5e2;font-size:14px">كل حجز بيوصلك هنا فورًا ومعاه زر واتساب للمريض</p>
     </div>
-    <div class="kpis">
+    <div class="kpis" id="kpisD">
       <div class="kpi"><span>حجوزات اليوم</span><b id="kToday">0</b></div>
       <div class="kpi"><span>إجمالي الحجوزات</span><b id="kAll">0</b></div>
       <div class="kpi"><span>إيراد متوقع</span><b id="kRev">0</b></div>
@@ -268,9 +271,12 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
         <div class="field"><label>اسم العيادة</label><input id="sClinic"></div>
         <div class="field"><label>اسم الدكتور</label><input id="sDoc"></div>
         <div class="field"><label>رقم واتساب (لاستقبال الحجوزات)</label><input id="sWa" type="tel" inputmode="tel" dir="ltr" style="text-align:right" placeholder="01XXXXXXXXX"></div>
+        <div class="field"><label>إيميل الدكتور (يوصله كل حجز فورًا)</label><input id="sEm" type="email" inputmode="email" dir="ltr" style="text-align:right" placeholder="doctor@gmail.com"></div>
         <div class="field"><label>أرقام الاتصال</label><textarea id="sPh" rows="2" dir="ltr" style="text-align:right" placeholder="رقم في كل سطر"></textarea></div>
         <div class="field"><label>رقم فودافون كاش (اختياري)</label><input id="sVc" type="tel" inputmode="tel" dir="ltr" style="text-align:right" placeholder="01XXXXXXXXX"></div>
         <div class="field"><label>حساب إنستا باي (اختياري)</label><input id="sIp" dir="ltr" style="text-align:right" placeholder="name@instapay أو لينك"></div>
+        <div class="field"><label>التخصص</label><input id="sSpec" placeholder="مثال: استشاري الأسنان"></div>
+        <div class="field"><label>مواعيد العمل (الساعة بنظام 24)</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="sH1" type="number" inputmode="numeric" min="0" max="23" placeholder="من (مثال 16)"><input id="sH2" type="number" inputmode="numeric" min="1" max="24" placeholder="إلى (مثال 22)"></div></div>
         <div class="field"><label>العنوان</label><input id="sAd"></div>
         <div class="lbl" style="margin-top:6px">الخدمات والأسعار</div>
         <div id="svEd"></div>
@@ -278,11 +284,11 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
         <div class="field"><label>لوجو العيادة</label><input id="sLogoF" type="file" accept="image/*"><small>اختار صورة من الموبايل (بتتحفظ على جهازك). أو حط لينك صورة تحت علشان يظهر في اللينك المشترك.</small></div>
         <div class="field"><input id="sLogoU" dir="ltr" style="text-align:right" placeholder="https://... لينك صورة اللوجو (اختياري)"></div>
         <button class="btn" id="sSave" type="button" style="width:100%;flex:none">حفظ وتطبيق</button>
-        <div id="sOut" style="display:none"><div class="lbl">لينك العيادة الجاهز للمشاركة</div><div class="lnk" id="sLink"></div><button class="btn ghost" id="sCopy" type="button" style="width:100%;flex:none">نسخ اللينك</button></div>
+        <div id="sOut" style="display:none"><div class="lbl" id="sOutH">لينك العيادة الجاهز للمشاركة</div><div class="lnk" id="sLink"></div><button class="btn ghost" id="sCopy" type="button" style="width:100%;flex:none">نسخ اللينك</button><a class="btn" id="sOpen" target="_blank" rel="noopener" style="display:none;text-align:center;text-decoration:none;margin-top:10px">فتح صفحة عيادتي</a><div id="sDash" class="lnk" style="display:none"></div><a class="btn wa" id="sSend" target="_blank" rel="noopener" style="display:none;text-align:center;text-decoration:none;margin-top:10px">إرسال بيانات عيادتي لإدارة غزالو</a></div>
         <small>الدفع كاش في العيادة متاح دايمًا. فودافون كاش وإنستا باي بيظهروا للمريض لما تضيف بياناتهم.</small>
       </div>
     </section>
-    <section><h2>الحجوزات القادمة</h2><div id="bkList"></div>
+    <section id="bkSec"><h2>الحجوزات القادمة</h2><div id="bkList"></div>
       <div class="note">في النسخة التجريبية الحجوزات بتتسجل على جهازك بس. في النسخة الأصلية بتتحفظ على السيرفر وبتوصل للدكتور والسكرتارية.</div>
     </section>
   </div>
@@ -303,7 +309,12 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
   /* ===== إعدادات العيادة: غيّر هنا فقط لعمل نسخة لأي عيادة =====
      أو من اللينك: ?name=اسم العيادة&doc=اسم الدكتور&wa=20100xxxxxxx */
   var q = new URLSearchParams(location.search);
+  var PLATFORM_WA = (q.get('platform')||'').replace(/\D/g,''); /* رقم واتساب صاحب المنصة لاستقبال طلبات تسجيل الأطباء (ضعه هنا) */
+  var ENDPOINT = q.get('ep')||'https://script.google.com/macros/s/AKfycbxnEEeKarxhPaP5mSKtPwoqsL_ySkUuvxWdUtWO7YSP9GcvvJtHy5XfT6_nMxrdbLxSEQ/exec';
+  var REG = !!q.get('name');
   var saved = {};try{saved=JSON.parse(localStorage.getItem('gz_clinic_cfg')||'{}')}catch(e){}
+  if(REG)saved={};
+  if(REG)document.body.className='reg';
   function pick(k,d){return q.get(k)||saved[k]||d}
   var CFG = {
     clinic: pick('name','عيادة نور'),
@@ -311,10 +322,12 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
     title:  pick('title','استشاري الأمراض الجلدية والتجميل'),
     wa:     pick('wa','01000000000'),
     phones: pick('ph','01000000000').split(/[,\n]+/).map(function(x){return x.trim()}).filter(Boolean),
+    em:     pick('em',''),
+    cid:    pick('cid',''),
     vc:     pick('vc',''),
     ip:     pick('ip',''),
     address: pick('addr','شارع الشهيد أحمد حمدي، أمام المحافظة، الإسماعيلية'),
-    startH: 16, endH: 22, slotMin: 30,
+    startH: parseInt(pick('h1','16'))||16, endH: parseInt(pick('h2','22'))||22, slotMin: 30,
     closedDay: 5, /* الجمعة */
     currency: 'جنيه',
     logo: pick('logo',''),
@@ -342,6 +355,14 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
     if(CFG.logo){lg.innerHTML='<img alt="" src="'+esc(CFG.logo)+'">';lg.style.background='#10131b'}
     else{lg.textContent=CFG.clinic.replace(/^(عيادة|مركز|د\.)\s*/,'').charAt(0)||'ع';lg.style.background=''}
     renderSvc();
+    var hf=function(h){var ap=h>=12&&h<24?'م':'ص';return (h%12||12)+' '+ap};
+    $('hoursL').textContent=hf(CFG.startH)+' - '+hf(CFG.endH);
+    if(REG){
+      $('aboutTxt').textContent='احجز موعدك مع '+CFG.doctor+' في '+CFG.clinic+' أونلاين في أقل من دقيقة، واختار الخدمة والميعاد المناسب ليك.';
+      $('footTxt').innerHTML='مدعوم بـ <b>منصة غزالو للعيادات</b>';
+      $('docTitle').textContent=CFG.title;
+      document.querySelector('.badge').lastChild.textContent=' متاح للحجز أونلاين';
+    }
     var h='';
     if(CFG.phones[0])h+='<a href="tel:'+esc(CFG.phones[0])+'">📞 اتصل</a>';
     h+='<a class="w" href="https://wa.me/'+waNum(CFG.wa)+'" target="_blank" rel="noopener">💬 واتساب</a>';
@@ -497,7 +518,20 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
     if(isTaken(dk,st.t)){st.t=null;st.step=2;render();return}
     var all=store.get();
     var b={id:'GZ-'+(1000+all.length+1+Math.floor(Math.random()*8)),date:dk,t:st.t,svc:st.svc.id,name:st.name,phone:st.phone,note:st.note,pay:st.pay,at:Date.now()};
-    all.push(b);store.set(all);st.done=b;render();
+    all.push(b);store.set(all);st.done=b;st.sent=CFG.em?'pending':'';render();sendBk(b);
+  }
+  function sendBk(b){
+    if(!CFG.em||!ENDPOINT)return;
+    var s=find(b.svc),d=new Date(b.date+'T00:00:00');
+    var body=JSON.stringify({id:b.id+'-'+(CFG.cid||'x'),clinic:CFG.clinic,doctor:CFG.doctor,name:b.name,phone:b.phone,service:s.n,price:s.p+' '+CFG.currency,day:DAYN[d.getDay()]+' '+d.getDate()+' '+MON[d.getMonth()],time:fmtTime(Math.floor(b.t/60),b.t%60),pay:payName(b.pay),note:b.note||'',notify:CFG.em,cid:CFG.cid||''});
+    function show(ok){st.sent=ok?'ok':'fail';var e=document.getElementById('sentBox');if(e)e.innerHTML=sentHtml()}
+    try{fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:body}).then(function(r){return r.json()}).then(function(j){show(j&&j.ok)}).catch(function(){show(false)})}catch(e){show(false)}
+  }
+  function sentHtml(){
+    if(st.sent==='ok')return '<div class="payinfo" style="border-color:#2fbf71;color:#2fbf71;text-align:center">✓ وصل حجزك للدكتور تلقائيًا</div>';
+    if(st.sent==='pending')return '<div class="payinfo" style="text-align:center">جاري إرسال الحجز للدكتور…</div>';
+    if(st.sent==='fail')return '<div class="payinfo" style="text-align:center">مقدرناش نبعت الحجز تلقائيًا، اضغط زر الواتساب تحت علشان توصله.</div>';
+    return '';
   }
   function waLink(b){
     var s=find(b.svc),d=new Date(b.date+'T00:00:00');
@@ -522,7 +556,7 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
     sBody.innerHTML='<div class="done"><div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>'+
       '<h3>تم تأكيد حجزك يا '+esc(b.name.split(' ')[0])+'</h3><div style="color:var(--muted)">استنّاك '+CFG.doctor+' يوم '+DAYN[d.getDay()]+' '+d.getDate()+' '+MON[d.getMonth()]+' الساعة '+fmtTime(Math.floor(b.t/60),b.t%60)+'</div>'+
       '<div class="code">'+b.id+'</div></div>'+
-      '<div class="sum">'+row('الخدمة',find(b.svc).n)+row('الدفع',payName(b.pay))+row('المبلغ',money(find(b.svc).p))+row('العنوان',esc(CFG.address))+'</div>'+payInfo(b)+
+      '<div class="sum">'+row('الخدمة',find(b.svc).n)+row('الدفع',payName(b.pay))+row('المبلغ',money(find(b.svc).p))+row('العنوان',esc(CFG.address))+'</div>'+'<div id="sentBox">'+sentHtml()+'</div>'+payInfo(b)+
       '<div class="note">اضغط الزر تحت علشان تبعت تفاصيل الحجز للعيادة على واتساب وتوصلك رسالة تأكيد. لو هتتأخر أو تلغي كلمنا قبلها بساعتين.</div>';
     sFoot.innerHTML='';
     var w=document.createElement('a');w.className='btn wa';w.style.textAlign='center';w.style.textDecoration='none';w.target='_blank';w.rel='noopener';w.href=waLink(b);w.textContent='تأكيد على واتساب 💬';sFoot.appendChild(w);
@@ -531,6 +565,7 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
 
   /* ===== doctor dashboard ===== */
   function demoBookings(){
+    if(REG)return [];
     var d=nextDays(3),names=['سارة أحمد','محمود علي','هبة حسن','كريم عادل','نورهان سامي'],out=[],i;
     var times=[16*60+30,17*60,18*60+30,19*60,20*60];
     for(i=0;i<5;i++){
@@ -576,23 +611,50 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
     fr.onload=function(){var im=new Image();im.onload=function(){var c=document.createElement('canvas');c.width=c.height=160;var x=c.getContext('2d');var m=Math.min(im.width,im.height);x.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,160,160);logoData=c.toDataURL('image/jpeg',.85);CFG.logo=logoData;applyCfg()};im.src=fr.result};fr.readAsDataURL(f);
   });
   $('sLogoU').value=/^https?:/.test(CFG.logo)?CFG.logo:'';
-  $('sClinic').value=CFG.clinic;$('sDoc').value=CFG.doctor;$('sWa').value=CFG.wa;$('sPh').value=CFG.phones.join('\n');$('sVc').value=CFG.vc;$('sIp').value=CFG.ip;$('sAd').value=CFG.address;
-  function makeLink(){
+  $('sClinic').value=CFG.clinic;$('sDoc').value=CFG.doctor;$('sWa').value=CFG.wa;$('sEm').value=CFG.em;$('sPh').value=CFG.phones.join('\n');$('sVc').value=CFG.vc;$('sIp').value=CFG.ip;$('sAd').value=CFG.address;$('sSpec').value=CFG.title;$('sH1').value=CFG.startH;$('sH2').value=CFG.endH;
+  function makeLink(C){
+    C=C||CFG;
     var p=new URLSearchParams();
-    p.set('name',CFG.clinic);p.set('doc',CFG.doctor);p.set('wa',CFG.wa);p.set('ph',CFG.phones.join(','));
-    p.set('sv',CFG.services.map(function(x){return x.n.replace(/[;|]/g,' ')+'|'+x.p+'|'+x.m}).join(';'));
-    if(/^https?:/.test(CFG.logo))p.set('logo',CFG.logo);
-    if(CFG.vc)p.set('vc',CFG.vc);if(CFG.ip)p.set('ip',CFG.ip);p.set('addr',CFG.address);
+    p.set('name',C.clinic);p.set('doc',C.doctor);p.set('title',C.title);p.set('wa',C.wa);p.set('ph',C.phones.join(','));
+    p.set('h1',C.startH);p.set('h2',C.endH);
+    p.set('sv',C.services.map(function(x){return x.n.replace(/[;|]/g,' ')+'|'+x.p+'|'+x.m}).join(';'));
+    if(/^https?:/.test(C.logo))p.set('logo',C.logo);
+    if(C.em)p.set('em',C.em);if(C.cid)p.set('cid',C.cid);if(C.vc)p.set('vc',C.vc);if(C.ip)p.set('ip',C.ip);p.set('addr',C.address);
     return location.origin+location.pathname+'?'+p.toString();
   }
+  var signupMode=false;
+  function newCid(){return Math.random().toString(36).slice(2,8)+Date.now().toString(36).slice(-3)}
+  function val(id){return $(id).value.trim()}
+  function signupSave(){
+    var okE=false,msg='';
+    var name=val('sClinic'),doc=val('sDoc'),wa=val('sWa').replace(/[\s\-]/g,''),phs=$('sPh').value.split(/[,\n]+/).map(function(x){return x.trim()}).filter(Boolean);
+    if(name.length<3)msg='اكتب اسم العيادة';else if(doc.length<3)msg='اكتب اسم الدكتور';else if(!/^01[0125]\d{8}$/.test(wa))msg='اكتب رقم واتساب مصري صحيح (11 رقم)';else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('sEm')))msg='اكتب إيميل صحيح علشان توصلك الحجوزات';
+    var b=$('sSave');
+    if(msg){b.textContent=msg;setTimeout(function(){b.textContent='إنشاء صفحة عيادتي'},2200);return}
+    var rows=readRows();if(!rows.length){b.textContent='ضيف خدمة واحدة على الأقل';setTimeout(function(){b.textContent='إنشاء صفحة عيادتي'},2200);return}
+    var lu=val('sLogoU');
+    var T={em:val('sEm'),cid:newCid(),clinic:name,doctor:doc,title:val('sSpec')||'طبيب',wa:wa,phones:phs.length?phs:[wa],vc:val('sVc'),ip:val('sIp'),address:val('sAd')||'العنوان يُضاف قريبًا',
+      startH:parseInt($('sH1').value)||16,endH:parseInt($('sH2').value)||22,services:rows,logo:/^https?:/.test(lu)?lu:''};
+    var link=makeLink(T);
+    $('sOut').style.display='block';$('sOutH').textContent='تم إنشاء صفحة عيادتك 🎉 ده لينك الحجز (ابعته لمرضاك وحطه في البايو)';
+    $('sLink').textContent=link;
+    $('sOpen').href=link;$('sOpen').style.display='block';
+    var dash=link+'#doctor';$('sDash').style.display='block';$('sDash').textContent='لوحة حجوزاتك: '+dash;
+    if(PLATFORM_WA){var m='السلام عليكم، سجلت عيادتي على منصة غزالو للعيادات\nالعيادة: '+name+'\nالدكتور: '+doc+'\nواتساب: '+wa+'\nلينك الصفحة: '+link;
+      $('sSend').href='https://wa.me/'+PLATFORM_WA+'?text='+encodeURIComponent(m);$('sSend').style.display='block'}
+    b.textContent='تم ✓';setTimeout(function(){b.textContent='إنشاء صفحة عيادتي'},1600);
+    $('sOut').scrollIntoView({behavior:'smooth',block:'center'});
+  }
   $('sSave').onclick=function(){
+    if(signupMode)return signupSave();
     CFG.clinic=$('sClinic').value.trim()||CFG.clinic;CFG.doctor=$('sDoc').value.trim()||CFG.doctor;
-    CFG.wa=$('sWa').value.trim()||CFG.wa;
+    CFG.wa=$('sWa').value.trim()||CFG.wa;CFG.em=$('sEm').value.trim();if(!CFG.cid)CFG.cid=newCid();
     var ph=$('sPh').value.split(/[,\n]+/).map(function(x){return x.trim()}).filter(Boolean);if(ph.length)CFG.phones=ph;
     var rows=readRows();if(rows.length)CFG.services=rows;svRows();
     var lu=$('sLogoU').value.trim();if(/^https?:/.test(lu)){CFG.logo=lu;logoData=''}
+    CFG.title=$('sSpec').value.trim()||CFG.title;CFG.startH=parseInt($('sH1').value)||CFG.startH;CFG.endH=parseInt($('sH2').value)||CFG.endH;
     CFG.vc=$('sVc').value.trim();CFG.ip=$('sIp').value.trim();CFG.address=$('sAd').value.trim()||CFG.address;
-    try{localStorage.setItem('gz_clinic_cfg',JSON.stringify({name:CFG.clinic,doc:CFG.doctor,wa:CFG.wa,ph:CFG.phones.join(','),vc:CFG.vc,ip:CFG.ip,addr:CFG.address,title:CFG.title,services:CFG.services,logoData:(CFG.logo&&CFG.logo.indexOf('data:')===0)?CFG.logo:''}))}catch(e){}
+    try{localStorage.setItem('gz_clinic_cfg',JSON.stringify({em:CFG.em,cid:CFG.cid,name:CFG.clinic,doc:CFG.doctor,wa:CFG.wa,ph:CFG.phones.join(','),vc:CFG.vc,ip:CFG.ip,addr:CFG.address,title:CFG.title,h1:CFG.startH,h2:CFG.endH,services:CFG.services,logoData:(CFG.logo&&CFG.logo.indexOf('data:')===0)?CFG.logo:''}))}catch(e){}
     applyCfg();refreshAdmin();
     $('sOut').style.display='block';$('sLink').textContent=makeLink();
     var b=$('sSave');b.textContent='تم الحفظ ✓';setTimeout(function(){b.textContent='حفظ وتطبيق'},1600);
@@ -600,15 +662,32 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
   $('sCopy').onclick=function(){copyTxt($('sLink').textContent,$('sCopy'))};
   applyCfg();
   function show(v){
+    var wasSignup=signupMode;signupMode=(v==='s');
+    document.body.classList.toggle('signup',signupMode);
     $('patient').style.display=v==='p'?'block':'none';
-    $('admin').style.display=v==='d'?'block':'none';
-    $('tabP').className='tab'+(v==='p'?' on':'');$('tabD').className='tab'+(v==='d'?' on':'');
+    $('admin').style.display=(v==='d'||v==='s')?'block':'none';
+    $('tabP').className='tab'+(v==='p'?' on':'');$('tabD').className='tab'+((v==='d'||v==='s')?' on':'');
+    if(signupMode&&!wasSignup){
+      $('admBadge').textContent='تسجيل دكتور جديد';$('admH').textContent='سجّل عيادتك على غزالو';
+      $('admP').textContent='املا البيانات واحصل على صفحة حجز خاصة بعيادتك ولينك تشاركه مع مرضاك';
+      ['sClinic','sDoc','sWa','sEm','sPh','sVc','sIp','sAd','sSpec','sH1','sH2','sLogoU'].forEach(function(i){$(i).value=''});
+      $('sH1').value=16;$('sH2').value=22;
+      $('sSave').textContent='إنشاء صفحة عيادتي';$('sOut').style.display='none';
+    }
+    if(!signupMode&&wasSignup){
+      $('admBadge').textContent=REG?'لوحة الدكتور':'لوحة الدكتور (تجريبية)';$('admH').textContent='حجوزات النهارده';
+      $('admP').textContent='كل حجز بيوصلك هنا فورًا ومعاه زر واتساب للمريض';
+      $('sClinic').value=CFG.clinic;$('sDoc').value=CFG.doctor;$('sWa').value=CFG.wa;$('sEm').value=CFG.em;$('sPh').value=CFG.phones.join('\n');$('sVc').value=CFG.vc;$('sIp').value=CFG.ip;$('sAd').value=CFG.address;$('sSpec').value=CFG.title;$('sH1').value=CFG.startH;$('sH2').value=CFG.endH;$('sLogoU').value=/^https?:/.test(CFG.logo)?CFG.logo:'';
+      $('sSave').textContent='حفظ وتطبيق';$('sOut').style.display='none';$('sOpen').style.display='none';$('sDash').style.display='none';$('sSend').style.display='none';$('sOutH').textContent='لينك العيادة الجاهز للمشاركة';
+    }
     if(v==='d')refreshAdmin();
     window.scrollTo(0,0);
   }
   $('tabP').onclick=function(){show('p')};
   $('tabD').onclick=function(){show('d')};
+  $('goSignup').onclick=function(){show('s')};
   if(location.hash==='#doctor')show('d');
+  if(location.hash==='#signup')show('s');
 })();
 </script>
 </body>
