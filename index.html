@@ -161,6 +161,25 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
 .set small{color:var(--muted);display:block;margin-top:8px;font-size:12.5px}
 .lnk{word-break:break-all;direction:ltr;text-align:left;background:#0f131b;border-radius:12px;padding:10px;font-size:12.5px;color:var(--acc);margin:8px 0}
 .phl a{display:inline-block;direction:ltr;background:var(--mint);color:var(--acc);padding:3px 12px;border-radius:99px;font-weight:800;text-decoration:none;margin:2px 0 2px 6px}
+
+@keyframes gzfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes gzshine{0%{transform:translateX(-130%) skewX(-20deg)}55%,100%{transform:translateX(230%) skewX(-20deg)}}
+@keyframes gzglow{0%,100%{box-shadow:0 10px 22px -8px rgba(212,175,55,.55),0 0 0 0 rgba(212,175,55,.35)}50%{box-shadow:0 16px 30px -8px rgba(212,175,55,.8),0 0 0 8px rgba(212,175,55,0)}}
+.cta,.btn:not(:disabled),.tab,.day,.slot:not([disabled]),.svc,.po,.cbar a,.payinfo .n button,.x,.bk a{animation:gzfloat 3.2s ease-in-out infinite;will-change:transform}
+.svc:nth-child(2n),.slot:nth-child(2n),.day:nth-child(2n),.po:nth-child(2n){animation-delay:-.8s}
+.svc:nth-child(3n),.slot:nth-child(3n),.day:nth-child(3n){animation-delay:-1.6s}
+.cta,.btn:not(:disabled):not(.ghost):not(.wa){position:relative;overflow:hidden;animation:gzfloat 3.2s ease-in-out infinite,gzglow 2.6s ease-in-out infinite}
+.cta:after,.btn:not(:disabled):not(.ghost):not(.wa):after{content:"";position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);animation:gzshine 3.4s ease-in-out infinite;pointer-events:none}
+.btn.wa{animation:gzfloat 3.2s ease-in-out infinite;box-shadow:0 10px 22px -8px rgba(31,168,85,.7)}
+.svc,.slot,.day,.po{box-shadow:0 8px 18px -10px rgba(0,0,0,.9),0 0 0 1px rgba(212,175,55,.08)}
+.cta:active,.btn:active,.slot:active,.day:active,.svc:active,.po:active,.tab:active{animation-play-state:paused;transform:scale(.96)}
+.fab .cta{box-shadow:0 14px 30px -8px rgba(0,0,0,.8),0 0 0 1px rgba(212,175,55,.3)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+.sv-row{display:grid;grid-template-columns:1fr 78px 58px 34px;gap:6px;margin-bottom:8px;align-items:center}
+.sv-row input{padding:10px 8px!important;font-size:14px!important;border-radius:10px!important}
+.sv-row .rm{background:#3a1d1d;color:#ff8c7d;border-radius:10px;height:40px;font-size:16px}
+.sv-h{display:grid;grid-template-columns:1fr 78px 58px 34px;gap:6px;font-size:12px;color:var(--muted);margin-bottom:4px}
+.logo img{width:100%;height:100%;object-fit:cover;border-radius:12px}
 .foot{text-align:center;color:var(--muted);font-size:12.5px;padding:30px 18px 0}
 .foot b{color:var(--acc)}
 .fab{position:fixed;bottom:0;left:0;right:0;z-index:20;padding:12px 18px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(0deg,var(--bg) 60%,transparent);max-width:560px;margin:0 auto;display:flex}
@@ -249,6 +268,12 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
         <div class="field"><label>رقم فودافون كاش (اختياري)</label><input id="sVc" type="tel" inputmode="tel" dir="ltr" style="text-align:right" placeholder="01XXXXXXXXX"></div>
         <div class="field"><label>حساب إنستا باي (اختياري)</label><input id="sIp" dir="ltr" style="text-align:right" placeholder="name@instapay أو لينك"></div>
         <div class="field"><label>العنوان</label><input id="sAd"></div>
+        <div class="lbl" style="margin-top:6px">الخدمات والأسعار</div>
+        <div class="sv-h"><span>الخدمة</span><span>السعر</span><span>دقائق</span><span></span></div>
+        <div id="svEd"></div>
+        <button class="btn ghost" id="svAdd" type="button" style="width:100%;flex:none;margin-bottom:14px">+ إضافة خدمة</button>
+        <div class="field"><label>لوجو العيادة</label><input id="sLogoF" type="file" accept="image/*"><small>اختار صورة من الموبايل (بتتحفظ على جهازك). أو حط لينك صورة تحت علشان يظهر في اللينك المشترك.</small></div>
+        <div class="field"><input id="sLogoU" dir="ltr" style="text-align:right" placeholder="https://... لينك صورة اللوجو (اختياري)"></div>
         <button class="btn" id="sSave" type="button" style="width:100%;flex:none">حفظ وتطبيق</button>
         <div id="sOut" style="display:none"><div class="lbl">لينك العيادة الجاهز للمشاركة</div><div class="lnk" id="sLink"></div><button class="btn ghost" id="sCopy" type="button" style="width:100%;flex:none">نسخ اللينك</button></div>
         <small>الدفع كاش في العيادة متاح دايمًا. فودافون كاش وإنستا باي بيظهروا للمريض لما تضيف بياناتهم.</small>
@@ -289,6 +314,7 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
     startH: 16, endH: 22, slotMin: 30,
     closedDay: 5, /* الجمعة */
     currency: 'جنيه',
+    logo: pick('logo',''),
     services: [
       {id:1, ic:'🩺', n:'كشف جديد',            d:'كشف وتشخيص كامل مع خطة علاج', p:400, m:30},
       {id:2, ic:'🔁', n:'إعادة كشف',           d:'خلال 14 يوم من الكشف الأول',   p:200, m:15},
@@ -298,14 +324,21 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
     ]
   };
   var $ = function(i){return document.getElementById(i)};
+  function parseSv(t){return String(t).split(';').map(function(x,i){var p=x.split('|');return {id:i+1,ic:'🩺',n:(p[0]||'').trim(),d:'',p:Math.max(0,parseInt(p[1])||0),m:parseInt(p[2])||30}}).filter(function(x){return x.n})}
+  if(q.get('sv')){var psv=parseSv(q.get('sv'));if(psv.length)CFG.services=psv}
+  else if(saved.services&&saved.services.length){CFG.services=saved.services}
+  if(!CFG.logo&&saved.logoData)CFG.logo=saved.logoData;
   function waNum(n){n=String(n).replace(/\D/g,'');if(n.indexOf('20')===0)return n;return '2'+n.replace(/^0*/,'0')}
   function applyCfg(){
     document.title = CFG.clinic + ' | احجز موعدك أونلاين';
     $('brandName').textContent = CFG.clinic;
-    $('logoL').textContent = CFG.clinic.replace(/^(عيادة|مركز|د\.)\s*/,'').charAt(0) || 'ع';
     $('docName').textContent = CFG.doctor;
     $('docTitle').textContent = CFG.title;
     $('addr').textContent = CFG.address;
+    var lg=$('logoL');
+    if(CFG.logo){lg.innerHTML='<img alt="" src="'+esc(CFG.logo)+'">';lg.style.background='#10131b'}
+    else{lg.textContent=CFG.clinic.replace(/^(عيادة|مركز|د\.)\s*/,'').charAt(0)||'ع';lg.style.background=''}
+    renderSvc();
     var h='';
     if(CFG.phones[0])h+='<a href="tel:'+esc(CFG.phones[0])+'">📞 اتصل</a>';
     h+='<a class="w" href="https://wa.me/'+waNum(CFG.wa)+'" target="_blank" rel="noopener">💬 واتساب</a>';
@@ -355,9 +388,8 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
 
   /* services list on page */
   var svcList=$('svcList');
-  svcList.innerHTML=CFG.services.map(function(s){
-    return '<button class="svc" type="button" data-id="'+s.id+'"><div class="ic">'+s.ic+'</div><div class="tx"><b>'+s.n+'</b><small>'+s.d+'</small></div><div class="pr">'+money(s.p)+'<small>'+s.m+' دقيقة</small></div></button>';
-  }).join('');
+  function svcHtml(s,cls){return '<button class="svc'+(cls||'')+'" type="button" data-id="'+s.id+'"><div class="ic">'+s.ic+'</div><div class="tx"><b>'+esc(s.n)+'</b><small>'+esc(s.d||'')+'</small></div><div class="pr">'+money(s.p)+'<small>'+s.m+' دقيقة</small></div></button>'}
+  function renderSvc(){svcList.innerHTML=CFG.services.map(function(s){return svcHtml(s)}).join('')}
   svcList.addEventListener('click',function(e){
     var b=e.target.closest('.svc');if(!b)return;openSheet(+b.getAttribute('data-id'));
   });
@@ -370,7 +402,7 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
     ov.classList.add('open');document.body.style.overflow='hidden';render();
   }
   function closeSheet(){ov.classList.remove('open');document.body.style.overflow='';if(st.done)refreshAdmin()}
-  function find(id){return CFG.services.filter(function(s){return s.id===id})[0]}
+  function find(id){return CFG.services.filter(function(s){return s.id===id})[0]||CFG.services[0]}
   $('ctaTop').onclick=function(){openSheet()};
   $('ctaFab').onclick=function(){openSheet()};
   $('sClose').onclick=closeSheet;
@@ -396,9 +428,7 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
   }
   function r1(){
     sTitle.textContent='اختار الخدمة';
-    sBody.innerHTML=CFG.services.map(function(s){
-      return '<button class="svc'+(st.svc&&st.svc.id===s.id?' sel':'')+'" type="button" data-id="'+s.id+'"><div class="ic">'+s.ic+'</div><div class="tx"><b>'+s.n+'</b><small>'+s.d+'</small></div><div class="pr">'+money(s.p)+'<small>'+s.m+' دقيقة</small></div></button>';
-    }).join('');
+    sBody.innerHTML=CFG.services.map(function(s){return svcHtml(s,st.svc&&st.svc.id===s.id?' sel':'')}).join('');
     sBody.onclick=function(e){var b=e.target.closest('.svc');if(!b)return;st.svc=find(+b.getAttribute('data-id'));r1()};
     footer(false,'التالي',!!st.svc,function(){st.step=2;render()});
   }
@@ -521,10 +551,34 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
   }
   refreshAdmin();
 
+  var logoData='';
+  function svRows(){
+    $('svEd').innerHTML=CFG.services.map(function(s,i){return '<div class="sv-row" data-i="'+i+'"><input class="vn" value="'+esc(s.n)+'" placeholder="اسم الخدمة"><input class="vp" type="number" inputmode="numeric" value="'+s.p+'"><input class="vm" type="number" inputmode="numeric" value="'+s.m+'"><button type="button" class="rm" data-rm="'+i+'">✕</button></div>'}).join('');
+  }
+  function readRows(){
+    var rows=$('svEd').querySelectorAll('.sv-row'),out=[];
+    for(var i=0;i<rows.length;i++){var n=rows[i].querySelector('.vn').value.trim();if(!n)continue;
+      var old=CFG.services[+rows[i].getAttribute('data-i')]||{};
+      out.push({id:out.length+1,ic:old.ic||'🩺',n:n,d:old.d||'',p:Math.max(0,parseInt(rows[i].querySelector('.vp').value)||0),m:parseInt(rows[i].querySelector('.vm').value)||30})}
+    return out;
+  }
+  svRows();
+  $('svAdd').onclick=function(){CFG.services=readRows();CFG.services.push({id:CFG.services.length+1,ic:'🩺',n:'خدمة جديدة',d:'',p:300,m:30});svRows()};
+  $('svEd').addEventListener('click',function(e){var r=e.target.closest('[data-rm]');if(!r)return;var cur=readRows();var idx=+r.getAttribute('data-rm');var all=CFG.services.slice();CFG.services=cur;
+    /* احذف الصف حسب ترتيبه */
+    var rows=$('svEd').querySelectorAll('.sv-row'),keep=[];for(var i=0;i<rows.length;i++){if(i!==idx&&rows[i].querySelector('.vn').value.trim()){var o=all[+rows[i].getAttribute('data-i')]||{};keep.push({id:keep.length+1,ic:o.ic||'🩺',n:rows[i].querySelector('.vn').value.trim(),d:o.d||'',p:Math.max(0,parseInt(rows[i].querySelector('.vp').value)||0),m:parseInt(rows[i].querySelector('.vm').value)||30})}}
+    if(keep.length)CFG.services=keep;else CFG.services=all;svRows()});
+  $('sLogoF').addEventListener('change',function(){
+    var f=this.files&&this.files[0];if(!f)return;var fr=new FileReader();
+    fr.onload=function(){var im=new Image();im.onload=function(){var c=document.createElement('canvas');c.width=c.height=160;var x=c.getContext('2d');var m=Math.min(im.width,im.height);x.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,160,160);logoData=c.toDataURL('image/jpeg',.85);CFG.logo=logoData;applyCfg()};im.src=fr.result};fr.readAsDataURL(f);
+  });
+  $('sLogoU').value=/^https?:/.test(CFG.logo)?CFG.logo:'';
   $('sClinic').value=CFG.clinic;$('sDoc').value=CFG.doctor;$('sWa').value=CFG.wa;$('sPh').value=CFG.phones.join('\n');$('sVc').value=CFG.vc;$('sIp').value=CFG.ip;$('sAd').value=CFG.address;
   function makeLink(){
     var p=new URLSearchParams();
     p.set('name',CFG.clinic);p.set('doc',CFG.doctor);p.set('wa',CFG.wa);p.set('ph',CFG.phones.join(','));
+    p.set('sv',CFG.services.map(function(x){return x.n.replace(/[;|]/g,' ')+'|'+x.p+'|'+x.m}).join(';'));
+    if(/^https?:/.test(CFG.logo))p.set('logo',CFG.logo);
     if(CFG.vc)p.set('vc',CFG.vc);if(CFG.ip)p.set('ip',CFG.ip);p.set('addr',CFG.address);
     return location.origin+location.pathname+'?'+p.toString();
   }
@@ -532,8 +586,10 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
     CFG.clinic=$('sClinic').value.trim()||CFG.clinic;CFG.doctor=$('sDoc').value.trim()||CFG.doctor;
     CFG.wa=$('sWa').value.trim()||CFG.wa;
     var ph=$('sPh').value.split(/[,\n]+/).map(function(x){return x.trim()}).filter(Boolean);if(ph.length)CFG.phones=ph;
+    var rows=readRows();if(rows.length)CFG.services=rows;svRows();
+    var lu=$('sLogoU').value.trim();if(/^https?:/.test(lu)){CFG.logo=lu;logoData=''}
     CFG.vc=$('sVc').value.trim();CFG.ip=$('sIp').value.trim();CFG.address=$('sAd').value.trim()||CFG.address;
-    try{localStorage.setItem('gz_clinic_cfg',JSON.stringify({name:CFG.clinic,doc:CFG.doctor,wa:CFG.wa,ph:CFG.phones.join(','),vc:CFG.vc,ip:CFG.ip,addr:CFG.address,title:CFG.title}))}catch(e){}
+    try{localStorage.setItem('gz_clinic_cfg',JSON.stringify({name:CFG.clinic,doc:CFG.doctor,wa:CFG.wa,ph:CFG.phones.join(','),vc:CFG.vc,ip:CFG.ip,addr:CFG.address,title:CFG.title,services:CFG.services,logoData:(CFG.logo&&CFG.logo.indexOf('data:')===0)?CFG.logo:''}))}catch(e){}
     applyCfg();refreshAdmin();
     $('sOut').style.display='block';$('sLink').textContent=makeLink();
     var b=$('sSave');b.textContent='تم الحفظ ✓';setTimeout(function(){b.textContent='حفظ وتطبيق'},1600);
