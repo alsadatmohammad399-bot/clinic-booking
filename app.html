@@ -650,8 +650,8 @@ body.signup .tabs,body.signup #kpisD,body.signup #bkSec{display:none}
       if(pw.length<6)return er('اكتب كلمة سر 6 حروف على الأقل');
       b0.textContent='جاري التحقق…';
       fetch(ENDPOINT+'?act=chk&p='+wa0+'&_='+Date.now()).then(function(r){return r.json()}).catch(function(){return {}}).then(function(j){
-        if(j&&j.exists)return er('الرقم ده مسجل قبل كده، اضغط "سجّل دخول"');
-        sha256(wa0.slice(-10)+':'+pw).then(function(h){window._pwh=h;signupSave0()});
+        if(j&&j.exists)return er('الرقم ده مسجل قبل كده. سجّل دخول، أو كلّم غزالو لو معندكش كلمة سر');
+        sha256(wa0.slice(-10)+':'+pw).then(function(h){window._pwh=h;try{localStorage.setItem('gz_h',h)}catch(e){}signupSave0()});
       });
     }else signupSave0();
   }
@@ -687,7 +687,7 @@ body.signup .tabs,body.signup #kpisD,body.signup #bkSec{display:none}
     CFG.vc=$('sVc').value.trim();CFG.ip=$('sIp').value.trim();CFG.address=$('sAd').value.trim()||CFG.address;
     try{localStorage.setItem('gz_clinic_cfg',JSON.stringify({em:CFG.em,cid:CFG.cid,name:CFG.clinic,doc:CFG.doctor,wa:CFG.wa,ph:CFG.phones.join(','),vc:CFG.vc,ip:CFG.ip,addr:CFG.address,title:CFG.title,h1:CFG.startH,h2:CFG.endH,services:CFG.services,logoData:(CFG.logo&&CFG.logo.indexOf('data:')===0)?CFG.logo:''}))}catch(e){}
     applyCfg();refreshAdmin();
-    try{if(CFG.cid)fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({type:'updatelink',cid:CFG.cid,link:makeLink()})}).catch(function(){})}catch(e){}
+    try{if(CFG.cid)fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({type:'updatelink',h:(localStorage.getItem('gz_h')||''),cid:CFG.cid,link:makeLink()})}).catch(function(){})}catch(e){}
     $('sOut').style.display='block';$('sLink').textContent=makeLink();
     var b=$('sSave');b.textContent='تم الحفظ ✓';setTimeout(function(){b.textContent='حفظ وتطبيق'},1600);
   };
