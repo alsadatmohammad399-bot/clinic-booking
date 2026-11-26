@@ -23,13 +23,14 @@ function draw(j){
   l.innerHTML=j.list.map(function(c,i){var w=String(c.wa).replace(/\D/g,'');if(w.length===10)w='0'+w;c.wa=w;
     return '<div class="c"><b>'+esc(c.clinic)+'</b> <span class="s '+c.status+'">'+LBL[c.status]+'</span><div class="m">'+esc(c.doctor)+' · واتساب '+esc(c.wa)+(c.em?' · '+esc(c.em):'')+'<br>'+esc(c.t)+'</div>'+
     (c.status==='ACTIVE'?'<button class="off" data-c="'+esc(c.cid)+'" data-s="INACTIVE">إيقاف</button>':'<button class="on" data-c="'+esc(c.cid)+'" data-s="ACTIVE">تفعيل ✓</button>')+
-    '<button class="cp" data-copy="'+i+'">نسخ لينك العيادة</button>'+
+    '<button class="cp" data-copy="'+i+'">نسخ لينك العيادة</button><button class="cp" data-k="'+esc(c.cid)+'" data-i="'+i+'">🔑 كود دخول</button>'+
     '<a class="b cp" target="_blank" rel="noopener" href="https://wa.me/2'+esc(c.wa)+'">واتساب الدكتور</a><div class="lk">'+esc(c.link)+'</div></div>'}).join('');
   window._L=j.list;
 }
 document.addEventListener('click',function(e){
   var b=e.target.closest('button');if(!b)return;
   if(b.dataset.copy!==undefined){var t=window._L[+b.dataset.copy].link;try{navigator.clipboard.writeText(t)}catch(x){}b.textContent='تم النسخ ✓';return}
+  if(b.dataset.k){var ix=+b.dataset.i;b.disabled=true;b.textContent='…';call('&a=code&cid='+encodeURIComponent(b.dataset.k)).then(function(j){if(j&&j.code){var w=window._L[ix].wa;var msg='كود إنشاء كلمة السر لعيادتك على غزالو: '+j.code+'\nادخل الموقع واضغط "دخول 🔑" ثم "عندي كود من غزالو". الكود صالح 48 ساعة.';b.outerHTML='<a class="b on" target="_blank" rel="noopener" href="https://wa.me/2'+esc(w)+'?text='+encodeURIComponent(msg)+'">ابعت الكود '+esc(j.code)+' للدكتور على واتساب</a>'}else b.textContent='فشل'}).catch(function(){b.textContent='فشل'});return}
   if(b.dataset.c){b.disabled=true;b.textContent='…';call('&a=set&cid='+encodeURIComponent(b.dataset.c)+'&s='+b.dataset.s).then(draw).catch(function(){b.textContent='فشل، حاول تاني'})}
 });
 call('&a=list').then(draw).catch(function(){document.getElementById('msg').textContent='مشكلة اتصال'});
