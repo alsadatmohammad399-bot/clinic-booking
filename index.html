@@ -175,9 +175,13 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
 .cta:active,.btn:active,.slot:active,.day:active,.svc:active,.po:active,.tab:active{animation-play-state:paused;transform:scale(.96)}
 .fab .cta{box-shadow:0 14px 30px -8px rgba(0,0,0,.8),0 0 0 1px rgba(212,175,55,.3)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}}
-.sv-row{display:grid;grid-template-columns:1fr 78px 58px 34px;gap:6px;margin-bottom:8px;align-items:center}
-.sv-row input{padding:10px 8px!important;font-size:14px!important;border-radius:10px!important}
-.sv-row .rm{background:#3a1d1d;color:#ff8c7d;border-radius:10px;height:40px;font-size:16px}
+.sv-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px;gap:8px;margin-bottom:12px;align-items:end;background:#0f131b;border:1px solid var(--line);border-radius:14px;padding:10px}
+.sv-row .nm{grid-column:1/-1}
+.sv-row label{display:block;font-size:12.5px;font-weight:700;color:var(--acc);margin-bottom:4px}
+.sv-row input{width:100%;min-width:0;padding:11px 10px;font-size:15px;border-radius:10px;border:2px solid var(--line);background:#151a24;color:var(--ink);outline:none;font-family:inherit}
+.sv-row input:focus{border-color:var(--gold)}
+.sv-row>div{min-width:0}
+.sv-row .rm{background:#3a1d1d;color:#ff8c7d;border-radius:10px;height:42px;font-size:16px}
 .sv-h{display:grid;grid-template-columns:1fr 78px 58px 34px;gap:6px;font-size:12px;color:var(--muted);margin-bottom:4px}
 .logo img{width:100%;height:100%;object-fit:cover;border-radius:12px}
 .foot{text-align:center;color:var(--muted);font-size:12.5px;padding:30px 18px 0}
@@ -269,7 +273,6 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
         <div class="field"><label>حساب إنستا باي (اختياري)</label><input id="sIp" dir="ltr" style="text-align:right" placeholder="name@instapay أو لينك"></div>
         <div class="field"><label>العنوان</label><input id="sAd"></div>
         <div class="lbl" style="margin-top:6px">الخدمات والأسعار</div>
-        <div class="sv-h"><span>الخدمة</span><span>السعر</span><span>دقائق</span><span></span></div>
         <div id="svEd"></div>
         <button class="btn ghost" id="svAdd" type="button" style="width:100%;flex:none;margin-bottom:14px">+ إضافة خدمة</button>
         <div class="field"><label>لوجو العيادة</label><input id="sLogoF" type="file" accept="image/*"><small>اختار صورة من الموبايل (بتتحفظ على جهازك). أو حط لينك صورة تحت علشان يظهر في اللينك المشترك.</small></div>
@@ -553,7 +556,7 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
 
   var logoData='';
   function svRows(){
-    $('svEd').innerHTML=CFG.services.map(function(s,i){return '<div class="sv-row" data-i="'+i+'"><input class="vn" value="'+esc(s.n)+'" placeholder="اسم الخدمة"><input class="vp" type="number" inputmode="numeric" value="'+s.p+'"><input class="vm" type="number" inputmode="numeric" value="'+s.m+'"><button type="button" class="rm" data-rm="'+i+'">✕</button></div>'}).join('');
+    $('svEd').innerHTML=CFG.services.map(function(s,i){return '<div class="sv-row" data-i="'+i+'"><div class="nm"><label>اسم الخدمة</label><input class="vn" value="'+esc(s.n)+'" placeholder="اسم الخدمة"></div><div><label>السعر (جنيه)</label><input class="vp" type="number" inputmode="numeric" value="'+s.p+'"></div><div><label>الدقايق</label><input class="vm" type="number" inputmode="numeric" value="'+s.m+'"></div><button type="button" class="rm" data-rm="'+i+'" aria-label="حذف">✕</button></div>'}).join('');
   }
   function readRows(){
     var rows=$('svEd').querySelectorAll('.sv-row'),out=[];
