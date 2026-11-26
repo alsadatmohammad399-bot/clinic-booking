@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f1219">
+<title>عيادة نور | احجز موعدك أونلاين</title>
+<meta name="description" content="احجز موعدك في عيادة نور للجلدية والتجميل بالإسماعيلية في أقل من دقيقة. نسخة تجريبية من منصة غزالو للعيادات.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#f4efe2; --teal:#0f1219; --teal2:#1b2130; --mint:#262313; --gold:#d4af37; --gold2:#f0d27a; --acc:#f0d27a; --dark:#10131b;
+  --bg:#0a0c11; --card:#151a24; --muted:#97a0b0; --line:#272e3d; --red:#ff6b5b; --green:#2fbf7a;
+  --r:20px; --shadow:0 10px 30px -14px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Cairo',system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+button{font-family:inherit;cursor:pointer;border:0}
+input,textarea{font-family:inherit}
+.app{max-width:560px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;padding-bottom:96px;box-shadow:0 0 60px rgba(0,0,0,.6)}
+@media(min-width:600px){body{background:radial-gradient(circle at 20% 10%,#2a2410,#050608 60%)}.app{margin:20px auto;border-radius:28px;overflow:hidden;min-height:calc(100vh - 40px)}}
+
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#0f1219;border-bottom:1px solid #2a2512;color:#fff;position:sticky;top:0;z-index:30}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px}
+.logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--gold2),var(--gold));display:grid;place-items:center;color:var(--dark);font-weight:800}
+.tabs{display:flex;gap:4px;background:rgba(255,255,255,.12);padding:3px;border-radius:12px}
+.tab{background:transparent;color:#aeb6c4;padding:6px 12px;border-radius:9px;font-size:13px;font-weight:700}
+.tab.on{background:var(--gold);color:var(--dark)}
+
+/* hero */
+.hero{background:radial-gradient(120% 90% at 80% 0%,#2a2410 0%,transparent 60%),linear-gradient(170deg,#0f1219 0%,#171c28 100%);color:#fff;padding:22px 18px 70px;position:relative;overflow:hidden}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;background:rgba(212,175,55,.10)}
+.hero:before{width:260px;height:260px;top:-90px;left:-80px}
+.hero:after{width:180px;height:180px;bottom:-60px;right:-40px;background:rgba(255,255,255,.06)}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);padding:4px 12px;border-radius:99px;font-size:12px;font-weight:700;position:relative}
+.dot{width:8px;height:8px;border-radius:50%;background:#5be3a1;box-shadow:0 0 0 4px rgba(91,227,161,.25)}
+.doc{display:flex;gap:16px;align-items:center;margin-top:18px;position:relative}
+.avatar{width:96px;height:96px;border-radius:28px;background:linear-gradient(135deg,var(--gold2),var(--gold));display:grid;place-items:center;flex:none;box-shadow:0 12px 24px -10px rgba(0,0,0,.5)}
+.avatar svg{width:62px;height:62px}
+.doc h1{margin:0;font-size:24px;line-height:1.3;font-weight:800}
+.doc p{margin:2px 0 0;color:#cfe5e2;font-size:14px}
+.rate{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:14px;font-weight:700}
+.star{color:var(--gold2)}
+.cta{display:block;width:100%;margin-top:22px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:var(--dark);font-size:18px;font-weight:800;padding:15px;border-radius:16px;box-shadow:0 12px 24px -10px rgba(201,162,75,.8);position:relative;transition:transform .15s}
+.cta:active{transform:scale(.97)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:-44px 18px 0;position:relative}
+.stat{background:var(--card);border-radius:16px;padding:12px 6px;text-align:center;box-shadow:var(--shadow)}
+.stat b{display:block;font-size:20px;color:var(--acc);font-weight:800;line-height:1.2}
+.stat span{font-size:12px;color:var(--muted)}
+
+section{padding:26px 18px 0}
+h2{margin:0 0 12px;font-size:19px;font-weight:800;display:flex;align-items:center;gap:8px}
+h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--gold)}
+.about{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);color:#cfd5e0;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{background:var(--mint);color:var(--acc);padding:4px 12px;border-radius:99px;font-size:13px;font-weight:700}
+
+.svc{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:18px;padding:13px;margin-bottom:10px;box-shadow:var(--shadow);border:2px solid transparent;width:100%;text-align:right;transition:.15s}
+.svc .ic{width:46px;height:46px;border-radius:14px;background:var(--mint);display:grid;place-items:center;font-size:22px;flex:none}
+.svc .tx{flex:1}
+.svc .tx b{display:block;font-size:16px;font-weight:700;color:var(--ink)}
+.svc .tx small{color:var(--muted);font-size:12.5px}
+.svc .pr{font-weight:800;color:var(--acc);font-size:15px;white-space:nowrap}
+.svc .pr small{display:block;font-weight:600;color:var(--muted);font-size:11px;text-align:left}
+.svc.sel{border-color:var(--gold);background:#1d1b12}
+
+.info{background:var(--card);border-radius:var(--r);padding:6px 16px;box-shadow:var(--shadow)}
+.irow{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.irow:last-child{border:0}
+.irow i{font-style:normal;font-size:20px}
+.irow small{display:block;color:var(--muted)}
+.hours div{display:flex;justify-content:space-between;gap:20px}
+
+/* booking sheet */
+.overlay{position:fixed;inset:0;background:rgba(5,25,26,.55);z-index:50;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}
+.overlay.open{display:flex}
+.sheet{background:var(--bg);border-top:1px solid #3a3416;width:100%;max-width:560px;max-height:94vh;border-radius:28px 28px 0 0;display:flex;flex-direction:column;animation:up .28s ease}
+@keyframes up{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}
+.shead{padding:16px 18px 10px;display:flex;justify-content:space-between;align-items:center}
+.shead b{font-size:18px;font-weight:800}
+.x{background:#222838;width:34px;height:34px;border-radius:50%;font-size:18px;color:var(--ink)}
+.steps{display:flex;gap:6px;padding:0 18px 12px}
+.steps i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.steps i.on{background:var(--gold)}
+.sbody{padding:4px 18px 18px;overflow-y:auto;flex:1}
+.sfoot{padding:12px 18px calc(14px + env(safe-area-inset-bottom));background:#0f1219;border-top:1px solid var(--line);display:flex;gap:10px;border-radius:0}
+.btn{flex:1;padding:14px;border-radius:14px;font-size:16px;font-weight:800;background:linear-gradient(135deg,var(--gold2),var(--gold));color:var(--dark);transition:.15s}
+.btn:disabled{background:#2a3040;color:#6b7385}
+.btn.ghost{flex:0 0 28%;background:#222838;color:var(--ink)}
+.btn.wa{background:#1fa855;color:#fff}
+.days{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.day{flex:none;width:68px;padding:10px 0;border-radius:16px;background:var(--card);text-align:center;border:2px solid transparent;box-shadow:var(--shadow);color:var(--ink)}
+.day small{display:block;font-size:12px;color:var(--muted)}
+.day b{display:block;font-size:22px;font-weight:800;line-height:1.2}
+.day.sel{background:var(--gold);color:var(--dark)}
+.day.sel small{color:#3a3216}
+.day[disabled]{opacity:.4}
+.lbl{font-weight:700;margin:10px 0 8px;font-size:15px}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.slot{padding:11px 0;border-radius:12px;background:var(--card);border:2px solid var(--line);font-weight:700;font-size:15px;color:var(--ink)}
+.slot.sel{background:var(--gold);border-color:var(--gold);color:var(--dark)}
+.slot[disabled]{background:#11151d;color:#4a5365;text-decoration:line-through;border-color:transparent}
+.field{margin-bottom:14px}
+.field label{display:block;font-weight:700;margin-bottom:6px;font-size:14.5px}
+.field input,.field textarea{width:100%;padding:13px 14px;border-radius:14px;border:2px solid var(--line);background:#0f131b;font-size:16px;color:var(--ink);outline:none}
+.field input:focus,.field textarea:focus{border-color:var(--gold)}
+.field .err{color:var(--red);font-size:13px;margin-top:4px;display:none}
+.field.bad input{border-color:var(--red)}.field.bad .err{display:block}
+.sum{background:var(--card);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow);margin-bottom:12px}
+.sum div{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--line);font-size:15px;gap:12px}
+.sum div:last-child{border:0}
+.sum span{color:var(--muted)}
+.sum b{text-align:left}
+.done{text-align:center;padding:10px 0}
+.check{width:84px;height:84px;border-radius:50%;background:var(--green);margin:6px auto 12px;display:grid;place-items:center;animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.check svg{width:44px;height:44px}
+.done h3{margin:0 0 4px;font-size:22px;font-weight:800}
+.code{display:inline-block;margin:8px 0 14px;background:var(--mint);color:var(--acc);padding:6px 18px;border-radius:12px;font-weight:800;letter-spacing:1px;font-size:18px;direction:ltr}
+.note{background:#1d1a0f;border:1px solid #3c3412;border-radius:14px;padding:10px 14px;font-size:13.5px;color:#e6cf86;margin-top:10px}
+
+/* admin */
+.adm{display:none}
+.adm .kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:18px 18px 0}
+.kpi{background:var(--card);border-radius:18px;padding:14px;box-shadow:var(--shadow)}
+.kpi span{font-size:13px;color:var(--muted)}
+.kpi b{display:block;font-size:26px;font-weight:800;color:var(--acc);line-height:1.3}
+.bk{background:var(--card);border-radius:18px;padding:13px 14px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:center}
+.bk .tm{background:var(--mint);color:var(--acc);border-radius:14px;padding:8px 10px;text-align:center;font-weight:800;min-width:66px;line-height:1.3}
+.bk .tm small{display:block;font-size:11px;font-weight:600;color:var(--muted)}
+.bk .nf{flex:1;font-size:14px}
+.bk .nf b{display:block;font-size:15.5px}
+.bk .nf span{color:var(--muted)}
+.bk a{background:#1fa855;color:#fff;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;text-decoration:none;font-size:18px}
+.tag{font-size:11px;background:#12301f;color:var(--green);padding:1px 8px;border-radius:99px;font-weight:700;margin-inline-start:6px}
+.tag.new{background:#3a2f0c;color:#f0d27a}
+.empty{text-align:center;color:var(--muted);padding:30px 0}
+
+.cbar{display:flex;gap:10px;margin-top:14px;position:relative}
+.cbar a{flex:1;text-align:center;text-decoration:none;padding:11px 6px;border-radius:14px;font-weight:800;font-size:14.5px;background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.14)}
+.cbar a.w{background:#1fa855;border-color:#1fa855}
+.pay{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.po{display:flex;align-items:center;gap:12px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:11px 12px;text-align:right;color:var(--ink);width:100%}
+.po.sel{border-color:var(--gold);background:#1d1b12}
+.po i{font-style:normal;font-size:22px}
+.po b{display:block;font-size:15px}.po small{color:var(--muted);font-size:12.5px}
+.po .rd{margin-inline-start:auto;width:20px;height:20px;border-radius:50%;border:2px solid var(--line)}
+.po.sel .rd{border-color:var(--gold);background:radial-gradient(circle,var(--gold) 45%,transparent 50%)}
+.payinfo{background:#1d1a0f;border:1px solid #3c3412;border-radius:16px;padding:12px 14px;margin-top:10px;font-size:14.5px;color:#e6cf86}
+.payinfo .n{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0;background:#0f131b;border-radius:12px;padding:8px 12px;direction:ltr;font-weight:800;font-size:17px;color:var(--acc)}
+.payinfo .n button{background:var(--gold);color:var(--dark);border-radius:9px;padding:4px 12px;font-weight:800;font-size:13px}
+.set{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
+.set .field input,.set .field textarea{font-size:15px}
+.set small{color:var(--muted);display:block;margin-top:8px;font-size:12.5px}
+.lnk{word-break:break-all;direction:ltr;text-align:left;background:#0f131b;border-radius:12px;padding:10px;font-size:12.5px;color:var(--acc);margin:8px 0}
+.phl a{display:inline-block;direction:ltr;background:var(--mint);color:var(--acc);padding:3px 12px;border-radius:99px;font-weight:800;text-decoration:none;margin:2px 0 2px 6px}
+.foot{text-align:center;color:var(--muted);font-size:12.5px;padding:30px 18px 0}
+.foot b{color:var(--acc)}
+.fab{position:fixed;bottom:0;left:0;right:0;z-index:20;padding:12px 18px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(0deg,var(--bg) 60%,transparent);max-width:560px;margin:0 auto;display:flex}
+.fab .cta{margin:0}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="top">
+    <div class="brand"><div class="logo" id="logoL">ن</div><span id="brandName">عيادة نور</span></div>
+    <div class="tabs">
+      <button class="tab on" id="tabP" type="button">للمرضى</button>
+      <button class="tab" id="tabD" type="button">للدكتور</button>
+    </div>
+  </div>
+
+  <!-- patient view -->
+  <div id="patient">
+    <div class="hero">
+      <span class="badge"><span class="dot"></span> متاح للحجز اليوم</span>
+      <div class="doc">
+        <div class="avatar">
+          <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="22" r="11" fill="#10131b"/><path d="M10 58c2-14 11-20 22-20s20 6 22 20" fill="#10131b"/><path d="M26 40l6 8 6-8" stroke="#f0d27a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <h1 id="docName">د. منى الشافعي</h1>
+          <p id="docTitle">استشاري الأمراض الجلدية والتجميل</p>
+          <div class="rate"><span class="star">★★★★★</span> <span>4.9</span><span style="opacity:.7;font-weight:600">(+320 تقييم)</span></div>
+        </div>
+      </div>
+      <button class="cta" id="ctaTop" type="button">احجز موعدك الآن</button>
+      <div class="cbar" id="cbar"></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>+12</b><span>سنة خبرة</span></div>
+      <div class="stat"><b>+5000</b><span>حالة</span></div>
+      <div class="stat"><b>30 د</b><span>مدة الكشف</span></div>
+    </div>
+
+    <section>
+      <h2>عن الدكتورة</h2>
+      <div class="about">
+        استشارية جلدية وتجميل، متخصصة في علاج تساقط الشعر والصلع الوراثي وحب الشباب والتصبغات. بنوفر لك كشف دقيق وخطة علاج واضحة من أول زيارة.
+        <div class="chips"><span class="chip">تساقط الشعر</span><span class="chip">حقن PRP</span><span class="chip">ليزر</span><span class="chip">حب الشباب</span><span class="chip">تجميل</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>الخدمات والأسعار</h2>
+      <div id="svcList"></div>
+    </section>
+
+    <section>
+      <h2>مواعيد العمل والعنوان</h2>
+      <div class="info">
+        <div class="irow"><i>📍</i><div><b id="addr">شارع الشهيد أحمد حمدي، أمام المحافظة، الإسماعيلية</b><small>الدور الثالث، شقة 8، يوجد أسانسير</small></div></div>
+        <div class="irow"><i>🕓</i><div class="hours" style="flex:1"><div><span>السبت - الخميس</span><b>4 م - 10 م</b></div><div><span>الجمعة</span><b style="color:var(--red)">إجازة</b></div></div></div>
+        <div class="irow"><i>📞</i><div><b>للاستفسار والحجز بالتليفون</b><div id="phonesL" class="phl" style="margin-top:4px"></div></div></div>
+        <div class="irow"><i>💳</i><div><b>طرق الدفع</b><small id="payL"></small></div></div>
+      </div>
+    </section>
+    <div class="foot">نسخة تجريبية من <b>منصة غزالو للعيادات</b><br>حجز أونلاين لعيادتك بدون رسائل ومكالمات</div>
+    <div class="fab"><button class="cta" id="ctaFab" type="button">احجز موعدك الآن</button></div>
+  </div>
+
+  <!-- doctor view -->
+  <div class="adm" id="admin">
+    <div class="hero" style="padding-bottom:26px">
+      <span class="badge"><span class="dot"></span> لوحة الدكتور (تجريبية)</span>
+      <h1 style="margin:14px 0 4px;font-size:24px;font-weight:800">حجوزات النهارده</h1>
+      <p style="margin:0;color:#cfe5e2;font-size:14px">كل حجز بيوصلك هنا فورًا ومعاه زر واتساب للمريض</p>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><span>حجوزات اليوم</span><b id="kToday">0</b></div>
+      <div class="kpi"><span>إجمالي الحجوزات</span><b id="kAll">0</b></div>
+      <div class="kpi"><span>إيراد متوقع</span><b id="kRev">0</b></div>
+      <div class="kpi"><span>مواعيد فاضية</span><b id="kFree">0</b></div>
+    </div>
+    <section><h2>إعدادات العيادة</h2>
+      <div class="set">
+        <div class="field"><label>اسم العيادة</label><input id="sClinic"></div>
+        <div class="field"><label>اسم الدكتور</label><input id="sDoc"></div>
+        <div class="field"><label>رقم واتساب (لاستقبال الحجوزات)</label><input id="sWa" type="tel" inputmode="tel" dir="ltr" style="text-align:right" placeholder="01XXXXXXXXX"></div>
+        <div class="field"><label>أرقام الاتصال</label><textarea id="sPh" rows="2" dir="ltr" style="text-align:right" placeholder="رقم في كل سطر"></textarea></div>
+        <div class="field"><label>رقم فودافون كاش (اختياري)</label><input id="sVc" type="tel" inputmode="tel" dir="ltr" style="text-align:right" placeholder="01XXXXXXXXX"></div>
+        <div class="field"><label>حساب إنستا باي (اختياري)</label><input id="sIp" dir="ltr" style="text-align:right" placeholder="name@instapay أو لينك"></div>
+        <div class="field"><label>العنوان</label><input id="sAd"></div>
+        <button class="btn" id="sSave" type="button" style="width:100%;flex:none">حفظ وتطبيق</button>
+        <div id="sOut" style="display:none"><div class="lbl">لينك العيادة الجاهز للمشاركة</div><div class="lnk" id="sLink"></div><button class="btn ghost" id="sCopy" type="button" style="width:100%;flex:none">نسخ اللينك</button></div>
+        <small>الدفع كاش في العيادة متاح دايمًا. فودافون كاش وإنستا باي بيظهروا للمريض لما تضيف بياناتهم.</small>
+      </div>
+    </section>
+    <section><h2>الحجوزات القادمة</h2><div id="bkList"></div>
+      <div class="note">في النسخة التجريبية الحجوزات بتتسجل على جهازك بس. في النسخة الأصلية بتتحفظ على السيرفر وبتوصل للدكتور والسكرتارية.</div>
+    </section>
+  </div>
+</div>
+
+<!-- booking sheet -->
+<div class="overlay" id="ov">
+  <div class="sheet" role="dialog" aria-modal="true">
+    <div class="shead"><b id="sTitle">اختار الخدمة</b><button class="x" id="sClose" type="button" aria-label="إغلاق">✕</button></div>
+    <div class="steps" id="steps"><i></i><i></i><i></i><i></i></div>
+    <div class="sbody" id="sBody"></div>
+    <div class="sfoot" id="sFoot"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* ===== إعدادات العيادة: غيّر هنا فقط لعمل نسخة لأي عيادة =====
+     أو من اللينك: ?name=اسم العيادة&doc=اسم الدكتور&wa=20100xxxxxxx */
+  var q = new URLSearchParams(location.search);
+  var saved = {};try{saved=JSON.parse(localStorage.getItem('gz_clinic_cfg')||'{}')}catch(e){}
+  function pick(k,d){return q.get(k)||saved[k]||d}
+  var CFG = {
+    clinic: pick('name','عيادة نور'),
+    doctor: pick('doc','د. منى الشافعي'),
+    title:  pick('title','استشاري الأمراض الجلدية والتجميل'),
+    wa:     pick('wa','01000000000'),
+    phones: pick('ph','01000000000').split(/[,\n]+/).map(function(x){return x.trim()}).filter(Boolean),
+    vc:     pick('vc',''),
+    ip:     pick('ip',''),
+    address: pick('addr','شارع الشهيد أحمد حمدي، أمام المحافظة، الإسماعيلية'),
+    startH: 16, endH: 22, slotMin: 30,
+    closedDay: 5, /* الجمعة */
+    currency: 'جنيه',
+    services: [
+      {id:1, ic:'🩺', n:'كشف جديد',            d:'كشف وتشخيص كامل مع خطة علاج', p:400, m:30},
+      {id:2, ic:'🔁', n:'إعادة كشف',           d:'خلال 14 يوم من الكشف الأول',   p:200, m:15},
+      {id:3, ic:'💇', n:'استشارة تساقط الشعر', d:'تحليل فروة الرأس وخطة علاج',   p:500, m:30},
+      {id:4, ic:'💉', n:'جلسة PRP للشعر',      d:'حقن البلازما لتنشيط البصيلات', p:1200,m:45},
+      {id:5, ic:'✨', n:'جلسة تنضيف بشرة',     d:'تنظيف عميق وعلاج حب الشباب',   p:600, m:45}
+    ]
+  };
+  var $ = function(i){return document.getElementById(i)};
+  function waNum(n){n=String(n).replace(/\D/g,'');if(n.indexOf('20')===0)return n;return '2'+n.replace(/^0*/,'0')}
+  function applyCfg(){
+    document.title = CFG.clinic + ' | احجز موعدك أونلاين';
+    $('brandName').textContent = CFG.clinic;
+    $('logoL').textContent = CFG.clinic.replace(/^(عيادة|مركز|د\.)\s*/,'').charAt(0) || 'ع';
+    $('docName').textContent = CFG.doctor;
+    $('docTitle').textContent = CFG.title;
+    $('addr').textContent = CFG.address;
+    var h='';
+    if(CFG.phones[0])h+='<a href="tel:'+esc(CFG.phones[0])+'">📞 اتصل</a>';
+    h+='<a class="w" href="https://wa.me/'+waNum(CFG.wa)+'" target="_blank" rel="noopener">💬 واتساب</a>';
+    $('cbar').innerHTML=h;
+    $('phonesL').innerHTML=CFG.phones.map(function(p){return '<a href="tel:'+esc(p)+'">'+esc(p)+'</a>'}).join('');
+    var pm=['كاش في العيادة'];if(CFG.vc)pm.push('فودافون كاش');if(CFG.ip)pm.push('إنستا باي');
+    $('payL').textContent=pm.join(' • ');
+  }
+
+  var DAYN = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  var MON = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  function pad(n){return (n<10?'0':'')+n}
+  function key(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+  function fmtTime(h,m){var ap=h>=12?'م':'ص';var hh=h%12||12;return hh+':'+pad(m)+' '+ap}
+  function money(n){return n.toLocaleString('en-US')+' '+CFG.currency}
+
+  /* storage (safe) */
+  var store = {
+    get:function(){try{return JSON.parse(localStorage.getItem('gz_clinic_bk')||'[]')}catch(e){return []}},
+    set:function(v){try{localStorage.setItem('gz_clinic_bk',JSON.stringify(v))}catch(e){}}
+  };
+
+  /* slots */
+  function allSlots(){
+    var out=[];for(var t=CFG.startH*60;t<CFG.endH*60;t+=CFG.slotMin){out.push(t)}return out;
+  }
+  function seedTaken(dk,t){ /* حجوزات وهمية ثابتة عشان الشكل واقعي */
+    var s=0;for(var i=0;i<dk.length;i++)s=(s*31+dk.charCodeAt(i))>>>0;
+    return ((s+t/30*7)%5)===0;
+  }
+  function isTaken(dk,t){
+    if(seedTaken(dk,t))return true;
+    return store.get().some(function(b){return b.date===dk&&b.t===t});
+  }
+  function nowMinutes(){var n=new Date();return n.getHours()*60+n.getMinutes()}
+  function slotsFor(d){
+    var dk=key(d),today=key(new Date())===dk;
+    return allSlots().map(function(t){
+      return {t:t,off:isTaken(dk,t)||(today&&t<=nowMinutes()+30)};
+    });
+  }
+  function nextDays(n){
+    var out=[],d=new Date();d.setHours(0,0,0,0);
+    for(var i=0;out.length<n&&i<40;i++){var x=new Date(d);x.setDate(d.getDate()+i);if(x.getDay()!==CFG.closedDay)out.push(x)}
+    return out;
+  }
+
+  /* services list on page */
+  var svcList=$('svcList');
+  svcList.innerHTML=CFG.services.map(function(s){
+    return '<button class="svc" type="button" data-id="'+s.id+'"><div class="ic">'+s.ic+'</div><div class="tx"><b>'+s.n+'</b><small>'+s.d+'</small></div><div class="pr">'+money(s.p)+'<small>'+s.m+' دقيقة</small></div></button>';
+  }).join('');
+  svcList.addEventListener('click',function(e){
+    var b=e.target.closest('.svc');if(!b)return;openSheet(+b.getAttribute('data-id'));
+  });
+
+  /* ===== booking flow ===== */
+  var st={step:1,svc:null,day:null,t:null,name:'',phone:'',note:'',pay:'cash',done:null};
+  var ov=$('ov'),sBody=$('sBody'),sFoot=$('sFoot'),sTitle=$('sTitle');
+  function openSheet(svcId){
+    st={step:svcId?2:1,svc:svcId?find(svcId):null,day:null,t:null,name:'',phone:'',note:'',pay:'cash',done:null};
+    ov.classList.add('open');document.body.style.overflow='hidden';render();
+  }
+  function closeSheet(){ov.classList.remove('open');document.body.style.overflow='';if(st.done)refreshAdmin()}
+  function find(id){return CFG.services.filter(function(s){return s.id===id})[0]}
+  $('ctaTop').onclick=function(){openSheet()};
+  $('ctaFab').onclick=function(){openSheet()};
+  $('sClose').onclick=closeSheet;
+  ov.addEventListener('click',function(e){if(e.target===ov)closeSheet()});
+
+  function setSteps(){
+    var els=$('steps').children;
+    for(var i=0;i<4;i++)els[i].className=(i<st.step||st.done)?'on':'';
+    $('steps').style.display=st.done?'none':'flex';
+  }
+  function footer(back,nextLabel,nextOk,onNext,onBack){
+    sFoot.innerHTML='';
+    if(back){var b=document.createElement('button');b.className='btn ghost';b.type='button';b.textContent='رجوع';b.onclick=onBack;sFoot.appendChild(b)}
+    var n=document.createElement('button');n.className='btn';n.type='button';n.textContent=nextLabel;n.disabled=!nextOk;n.onclick=onNext;sFoot.appendChild(n);
+  }
+  function render(){
+    setSteps();
+    if(st.done)return renderDone();
+    if(st.step===1)return r1();
+    if(st.step===2)return r2();
+    if(st.step===3)return r3();
+    return r4();
+  }
+  function r1(){
+    sTitle.textContent='اختار الخدمة';
+    sBody.innerHTML=CFG.services.map(function(s){
+      return '<button class="svc'+(st.svc&&st.svc.id===s.id?' sel':'')+'" type="button" data-id="'+s.id+'"><div class="ic">'+s.ic+'</div><div class="tx"><b>'+s.n+'</b><small>'+s.d+'</small></div><div class="pr">'+money(s.p)+'<small>'+s.m+' دقيقة</small></div></button>';
+    }).join('');
+    sBody.onclick=function(e){var b=e.target.closest('.svc');if(!b)return;st.svc=find(+b.getAttribute('data-id'));r1()};
+    footer(false,'التالي',!!st.svc,function(){st.step=2;render()});
+  }
+  function r2(){
+    sTitle.textContent='اختار اليوم والميعاد';
+    var days=nextDays(8);
+    if(!st.day)st.day=days[0];
+    var h='<div class="lbl">اليوم</div><div class="days">'+days.map(function(d){
+      return '<button type="button" class="day'+(key(d)===key(st.day)?' sel':'')+'" data-k="'+key(d)+'"><small>'+DAYN[d.getDay()]+'</small><b>'+d.getDate()+'</b><small>'+MON[d.getMonth()]+'</small></button>';
+    }).join('')+'</div><div class="lbl">المواعيد المتاحة</div><div class="slots">';
+    var sl=slotsFor(st.day),free=0;
+    sl.forEach(function(s){
+      if(!s.off)free++;
+      h+='<button type="button" class="slot'+(st.t===s.t?' sel':'')+'" data-t="'+s.t+'"'+(s.off?' disabled':'')+'>'+fmtTime(Math.floor(s.t/60),s.t%60)+'</button>';
+    });
+    h+='</div>'+(free===0?'<div class="empty">مفيش مواعيد فاضية في اليوم ده، جرب يوم تاني</div>':'');
+    sBody.innerHTML=h;
+    sBody.onclick=function(e){
+      var d=e.target.closest('.day');
+      if(d){var k=d.getAttribute('data-k');st.day=days.filter(function(x){return key(x)===k})[0];st.t=null;return r2()}
+      var s=e.target.closest('.slot');
+      if(s&&!s.disabled){st.t=+s.getAttribute('data-t');r2()}
+    };
+    footer(true,'التالي',st.t!==null,function(){st.step=3;render()},function(){st.step=1;render()});
+  }
+  function r3(){
+    sTitle.textContent='بياناتك';
+    sBody.innerHTML=
+      '<div class="field" id="fN"><label>الاسم بالكامل</label><input id="iN" autocomplete="name" placeholder="مثال: أحمد محمد" value="'+esc(st.name)+'"><div class="err">اكتب اسمك من فضلك</div></div>'+
+      '<div class="field" id="fP"><label>رقم الموبايل</label><input id="iP" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:right" placeholder="01XXXXXXXXX" value="'+esc(st.phone)+'"><div class="err">اكتب رقم موبايل مصري صحيح (11 رقم)</div></div>'+
+      '<div class="field"><label>ملاحظات (اختياري)</label><textarea id="iT" rows="3" placeholder="اوصف الشكوى باختصار">'+esc(st.note)+'</textarea></div>';
+    sBody.onclick=null;
+    footer(true,'مراجعة الحجز',true,function(){
+      st.name=$('iN').value.trim();st.phone=$('iP').value.replace(/[\s\-]/g,'').replace(/[٠-٩]/g,function(c){return c.charCodeAt(0)-1632});st.note=$('iT').value.trim();
+      var okN=st.name.length>=3,okP=/^01[0125]\d{8}$/.test(st.phone);
+      $('fN').classList.toggle('bad',!okN);$('fP').classList.toggle('bad',!okP);
+      if(okN&&okP){st.step=4;render()}
+    },function(){st.name=$('iN').value;st.phone=$('iP').value;st.note=$('iT').value;st.step=2;render()});
+  }
+  function r4(){
+    sTitle.textContent='راجع وأكد الحجز';
+    sBody.innerHTML='<div class="sum">'+
+      row('العيادة',CFG.clinic)+row('الدكتور',CFG.doctor)+row('الخدمة',st.svc.n)+
+      row('اليوم',DAYN[st.day.getDay()]+' '+st.day.getDate()+' '+MON[st.day.getMonth()])+
+      row('الساعة',fmtTime(Math.floor(st.t/60),st.t%60))+row('الاسم',esc(st.name))+row('الموبايل','<span dir="ltr">'+esc(st.phone)+'</span>')+
+      row('السعر',money(st.svc.p))+'</div>'+
+      '<div class="lbl">طريقة الدفع</div><div class="pay">'+payOpts()+'</div>';
+    sBody.onclick=function(e){var p=e.target.closest('.po');if(!p)return;st.pay=p.getAttribute('data-p');r4()};
+    footer(true,'تأكيد الحجز',true,function(){confirmBooking()},function(){st.step=3;render()});
+  }
+  function payOpts(){
+    var o=[['cash','💵','كاش في العيادة','ادفع عند الحضور']];
+    if(CFG.vc)o.push(['vc','📱','فودافون كاش','حوّل على رقم العيادة بعد الحجز']);
+    if(CFG.ip)o.push(['ip','🏦','إنستا باي','حوّل على حساب العيادة بعد الحجز']);
+    return o.map(function(x){return '<button type="button" class="po'+(st.pay===x[0]?' sel':'')+'" data-p="'+x[0]+'"><i>'+x[1]+'</i><div><b>'+x[2]+'</b><small>'+x[3]+'</small></div><span class="rd"></span></button>'}).join('');
+  }
+  function payName(p){return p==='vc'?'فودافون كاش':p==='ip'?'إنستا باي':'كاش في العيادة'}
+  function row(a,b){return '<div><span>'+a+'</span><b>'+b+'</b></div>'}
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+
+  function confirmBooking(){
+    var dk=key(st.day);
+    if(isTaken(dk,st.t)){st.t=null;st.step=2;render();return}
+    var all=store.get();
+    var b={id:'GZ-'+(1000+all.length+1+Math.floor(Math.random()*8)),date:dk,t:st.t,svc:st.svc.id,name:st.name,phone:st.phone,note:st.note,pay:st.pay,at:Date.now()};
+    all.push(b);store.set(all);st.done=b;render();
+  }
+  function waLink(b){
+    var s=find(b.svc),d=new Date(b.date+'T00:00:00');
+    var msg='السلام عليكم، أنا '+b.name+'\nحجزت موعد في '+CFG.clinic+'\nالخدمة: '+s.n+'\nاليوم: '+DAYN[d.getDay()]+' '+d.getDate()+' '+MON[d.getMonth()]+'\nالساعة: '+fmtTime(Math.floor(b.t/60),b.t%60)+'\nالدفع: '+payName(b.pay)+'\nرقم الحجز: '+b.id+'\nموبايلي: '+b.phone;
+    return 'https://wa.me/'+waNum(CFG.wa)+'?text='+encodeURIComponent(msg);
+  }
+  function payInfo(b){
+    if(b.pay==='vc'&&CFG.vc)return '<div class="payinfo">حوّل '+money(find(b.svc).p)+' على فودافون كاش:<div class="n"><span>'+esc(CFG.vc)+'</span><button type="button" data-copy="'+esc(CFG.vc)+'">نسخ</button></div>وابعت صورة التحويل مع رسالة الواتساب.</div>';
+    if(b.pay==='ip'&&CFG.ip){var isU=/^https?:/.test(CFG.ip);return '<div class="payinfo">حوّل '+money(find(b.svc).p)+' على إنستا باي:<div class="n"><span>'+esc(isU?'فتح لينك الدفع':CFG.ip)+'</span><button type="button" data-copy="'+esc(CFG.ip)+'">نسخ</button></div>'+(isU?'<a href="'+esc(CFG.ip)+'" target="_blank" rel="noopener" style="color:var(--acc);font-weight:800">اضغط هنا لفتح إنستا باي</a><br>':'')+'وابعت صورة التحويل مع رسالة الواتساب.</div>';}
+    return '';
+  }
+  function copyTxt(t,btn){
+    function ok(){if(btn){var o=btn.textContent;btn.textContent='تم النسخ ✓';setTimeout(function(){btn.textContent=o},1500)}}
+    try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}
+    function fb(){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(a);ok()}
+  }
+  document.addEventListener('click',function(e){var c=e.target.closest('[data-copy]');if(c)copyTxt(c.getAttribute('data-copy'),c)});
+  function renderDone(){
+    var b=st.done,d=new Date(b.date+'T00:00:00');
+    sTitle.textContent='تم الحجز';
+    sBody.onclick=null;
+    sBody.innerHTML='<div class="done"><div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>'+
+      '<h3>تم تأكيد حجزك يا '+esc(b.name.split(' ')[0])+'</h3><div style="color:var(--muted)">استنّاك '+CFG.doctor+' يوم '+DAYN[d.getDay()]+' '+d.getDate()+' '+MON[d.getMonth()]+' الساعة '+fmtTime(Math.floor(b.t/60),b.t%60)+'</div>'+
+      '<div class="code">'+b.id+'</div></div>'+
+      '<div class="sum">'+row('الخدمة',find(b.svc).n)+row('الدفع',payName(b.pay))+row('المبلغ',money(find(b.svc).p))+row('العنوان',esc(CFG.address))+'</div>'+payInfo(b)+
+      '<div class="note">اضغط الزر تحت علشان تبعت تفاصيل الحجز للعيادة على واتساب وتوصلك رسالة تأكيد. لو هتتأخر أو تلغي كلمنا قبلها بساعتين.</div>';
+    sFoot.innerHTML='';
+    var w=document.createElement('a');w.className='btn wa';w.style.textAlign='center';w.style.textDecoration='none';w.target='_blank';w.rel='noopener';w.href=waLink(b);w.textContent='تأكيد على واتساب 💬';sFoot.appendChild(w);
+    var c=document.createElement('button');c.className='btn ghost';c.type='button';c.textContent='إغلاق';c.onclick=closeSheet;sFoot.appendChild(c);
+  }
+
+  /* ===== doctor dashboard ===== */
+  function demoBookings(){
+    var d=nextDays(3),names=['سارة أحمد','محمود علي','هبة حسن','كريم عادل','نورهان سامي'],out=[],i;
+    var times=[16*60+30,17*60,18*60+30,19*60,20*60];
+    for(i=0;i<5;i++){
+      var day=d[i<3?0:1];
+      out.push({id:'GZ-'+(990+i),date:key(day),t:times[i],svc:[1,3,4,2,5][i],name:names[i],phone:'010'+(10000000+i*1234567).toString().slice(0,8),demo:true});
+    }
+    return out;
+  }
+  function refreshAdmin(){
+    var mine=store.get().map(function(b){b.mine=true;return b}),all=demoBookings().concat(mine);
+    all.sort(function(a,b){return (a.date+pad(Math.floor(a.t/60))+a.t)<(b.date+pad(Math.floor(b.t/60))+b.t)?-1:1});
+    var tk=key(new Date()),today=all.filter(function(b){return b.date===tk}).length;
+    var rev=all.reduce(function(s,b){return s+find(b.svc).p},0);
+    var days=nextDays(8),free=0;days.forEach(function(d){slotsFor(d).forEach(function(s){if(!s.off)free++})});
+    $('kToday').textContent=today;$('kAll').textContent=all.length;$('kRev').textContent=money(rev);$('kFree').textContent=free;
+    $('bkList').innerHTML=all.map(function(b){
+      var d=new Date(b.date+'T00:00:00'),s=find(b.svc);
+      var wa='https://wa.me/'+waNum(b.phone)+'?text='+encodeURIComponent('أهلا '+b.name+'، تأكيد لموعدك في '+CFG.clinic);
+      return '<div class="bk"><div class="tm">'+fmtTime(Math.floor(b.t/60),b.t%60)+'<small>'+DAYN[d.getDay()]+' '+d.getDate()+'</small></div><div class="nf"><b>'+esc(b.name)+(b.mine?'<span class="tag new">جديد</span>':'<span class="tag">مؤكد</span>')+'</b><span>'+s.n+' • <span dir="ltr">'+esc(b.phone)+'</span></span></div><a href="'+wa+'" target="_blank" rel="noopener" aria-label="واتساب">💬</a></div>';
+    }).join('');
+  }
+  refreshAdmin();
+
+  $('sClinic').value=CFG.clinic;$('sDoc').value=CFG.doctor;$('sWa').value=CFG.wa;$('sPh').value=CFG.phones.join('\n');$('sVc').value=CFG.vc;$('sIp').value=CFG.ip;$('sAd').value=CFG.address;
+  function makeLink(){
+    var p=new URLSearchParams();
+    p.set('name',CFG.clinic);p.set('doc',CFG.doctor);p.set('wa',CFG.wa);p.set('ph',CFG.phones.join(','));
+    if(CFG.vc)p.set('vc',CFG.vc);if(CFG.ip)p.set('ip',CFG.ip);p.set('addr',CFG.address);
+    return location.origin+location.pathname+'?'+p.toString();
+  }
+  $('sSave').onclick=function(){
+    CFG.clinic=$('sClinic').value.trim()||CFG.clinic;CFG.doctor=$('sDoc').value.trim()||CFG.doctor;
+    CFG.wa=$('sWa').value.trim()||CFG.wa;
+    var ph=$('sPh').value.split(/[,\n]+/).map(function(x){return x.trim()}).filter(Boolean);if(ph.length)CFG.phones=ph;
+    CFG.vc=$('sVc').value.trim();CFG.ip=$('sIp').value.trim();CFG.address=$('sAd').value.trim()||CFG.address;
+    try{localStorage.setItem('gz_clinic_cfg',JSON.stringify({name:CFG.clinic,doc:CFG.doctor,wa:CFG.wa,ph:CFG.phones.join(','),vc:CFG.vc,ip:CFG.ip,addr:CFG.address,title:CFG.title}))}catch(e){}
+    applyCfg();refreshAdmin();
+    $('sOut').style.display='block';$('sLink').textContent=makeLink();
+    var b=$('sSave');b.textContent='تم الحفظ ✓';setTimeout(function(){b.textContent='حفظ وتطبيق'},1600);
+  };
+  $('sCopy').onclick=function(){copyTxt($('sLink').textContent,$('sCopy'))};
+  applyCfg();
+  function show(v){
+    $('patient').style.display=v==='p'?'block':'none';
+    $('admin').style.display=v==='d'?'block':'none';
+    $('tabP').className='tab'+(v==='p'?' on':'');$('tabD').className='tab'+(v==='d'?' on':'');
+    if(v==='d')refreshAdmin();
+    window.scrollTo(0,0);
+  }
+  $('tabP').onclick=function(){show('p')};
+  $('tabD').onclick=function(){show('d')};
+  if(location.hash==='#doctor')show('d');
+})();
+</script>
+</body>
+</html>
