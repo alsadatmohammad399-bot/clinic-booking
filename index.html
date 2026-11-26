@@ -186,7 +186,7 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
 .logo img{width:100%;height:100%;object-fit:cover;border-radius:12px}
 body.reg #goSignup2,body.reg #statsD,body.reg #chipsD,body.reg #rateD{display:none}
 body.reg .hero{padding-bottom:40px}
-body.signup #kpisD,body.signup #bkSec{display:none}
+body.signup .tabs,body.signup #kpisD,body.signup #bkSec{display:none}
 .foot{text-align:center;color:var(--muted);font-size:12.5px;padding:30px 18px 0}
 .foot b{color:var(--acc)}
 .fab{position:fixed;bottom:0;left:0;right:0;z-index:20;padding:12px 18px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(0deg,var(--bg) 60%,transparent);max-width:560px;margin:0 auto;display:flex}
@@ -341,7 +341,7 @@ body.signup #kpisD,body.signup #bkSec{display:none}
     ]
   };
   var $ = function(i){return document.getElementById(i)};
-  function parseSv(t){return String(t).split(';').map(function(x,i){var p=x.split('|');return {id:i+1,ic:'🩺',n:(p[0]||'').trim(),d:'',p:Math.max(0,parseInt(p[1])||0),m:parseInt(p[2])||30}}).filter(function(x){return x.n})}
+  function parseSv(t){return String(t).split(';').map(function(x,i){var p=x.split('|');return {id:i+1,ic:'🩺',n:(p[0]||'').trim(),d:(p[3]||'').trim(),p:Math.max(0,parseInt(p[1])||0),m:parseInt(p[2])||30}}).filter(function(x){return x.n})}
   if(q.get('sv')){var psv=parseSv(q.get('sv'));if(psv.length)CFG.services=psv}
   else if(saved.services&&saved.services.length){CFG.services=saved.services}
   if(!CFG.logo&&saved.logoData)CFG.logo=saved.logoData;
@@ -592,17 +592,17 @@ body.signup #kpisD,body.signup #bkSec{display:none}
 
   var logoData='';
   function svRows(){
-    $('svEd').innerHTML=CFG.services.map(function(s,i){return '<div class="sv-row" data-i="'+i+'"><div class="nm"><label>اسم الخدمة</label><input class="vn" value="'+esc(s.n)+'" placeholder="اسم الخدمة"></div><div><label>السعر (جنيه)</label><input class="vp" type="number" inputmode="numeric" value="'+s.p+'"></div><div><label>الدقايق</label><input class="vm" type="number" inputmode="numeric" value="'+s.m+'"></div><button type="button" class="rm" data-rm="'+i+'" aria-label="حذف">✕</button></div>'}).join('');
+    $('svEd').innerHTML=CFG.services.map(function(s,i){return '<div class="sv-row" data-i="'+i+'"><div class="nm"><label>اسم الخدمة</label><input class="vn" value="'+esc(s.n)+'" placeholder="اسم الخدمة"></div><div class="nm"><label>تفاصيل الخدمة (اختياري)</label><input class="vd" value="'+esc(s.d||'')+'" placeholder="وصف قصير للخدمة"></div><div><label>السعر (جنيه)</label><input class="vp" type="number" inputmode="numeric" value="'+(s.p===''?'':s.p)+'" placeholder="0"></div><div><label>الدقايق</label><input class="vm" type="number" inputmode="numeric" value="'+(s.m===''?'':s.m)+'" placeholder="30"></div><button type="button" class="rm" data-rm="'+i+'" aria-label="حذف">✕</button></div>'}).join('');
   }
   function readRows(){
     var rows=$('svEd').querySelectorAll('.sv-row'),out=[];
     for(var i=0;i<rows.length;i++){var n=rows[i].querySelector('.vn').value.trim();if(!n)continue;
       var old=CFG.services[+rows[i].getAttribute('data-i')]||{};
-      out.push({id:out.length+1,ic:old.ic||'🩺',n:n,d:old.d||'',p:Math.max(0,parseInt(rows[i].querySelector('.vp').value)||0),m:parseInt(rows[i].querySelector('.vm').value)||30})}
+      out.push({id:out.length+1,ic:old.ic||'🩺',n:n,d:(rows[i].querySelector('.vd')?rows[i].querySelector('.vd').value.trim():(old.d||'')),p:Math.max(0,parseInt(rows[i].querySelector('.vp').value)||0),m:parseInt(rows[i].querySelector('.vm').value)||30})}
     return out;
   }
   svRows();
-  $('svAdd').onclick=function(){CFG.services=readRows();CFG.services.push({id:CFG.services.length+1,ic:'🩺',n:'خدمة جديدة',d:'',p:300,m:30});svRows()};
+  $('svAdd').onclick=function(){CFG.services=readRows();CFG.services.push(signupMode?{id:CFG.services.length+1,ic:'🩺',n:'',d:'',p:'',m:''}:{id:CFG.services.length+1,ic:'🩺',n:'خدمة جديدة',d:'',p:300,m:30});svRows()};
   $('svEd').addEventListener('click',function(e){var r=e.target.closest('[data-rm]');if(!r)return;var cur=readRows();var idx=+r.getAttribute('data-rm');var all=CFG.services.slice();CFG.services=cur;
     /* احذف الصف حسب ترتيبه */
     var rows=$('svEd').querySelectorAll('.sv-row'),keep=[];for(var i=0;i<rows.length;i++){if(i!==idx&&rows[i].querySelector('.vn').value.trim()){var o=all[+rows[i].getAttribute('data-i')]||{};keep.push({id:keep.length+1,ic:o.ic||'🩺',n:rows[i].querySelector('.vn').value.trim(),d:o.d||'',p:Math.max(0,parseInt(rows[i].querySelector('.vp').value)||0),m:parseInt(rows[i].querySelector('.vm').value)||30})}}
@@ -618,7 +618,7 @@ body.signup #kpisD,body.signup #bkSec{display:none}
     var p=new URLSearchParams();
     p.set('name',C.clinic);p.set('doc',C.doctor);p.set('title',C.title);p.set('wa',C.wa);p.set('ph',C.phones.join(','));
     p.set('h1',C.startH);p.set('h2',C.endH);
-    p.set('sv',C.services.map(function(x){return x.n.replace(/[;|]/g,' ')+'|'+x.p+'|'+x.m}).join(';'));
+    p.set('sv',C.services.map(function(x){return x.n.replace(/[;|]/g,' ')+'|'+x.p+'|'+x.m+'|'+String(x.d||'').replace(/[;|]/g,' ')}).join(';'));
     if(/^https?:/.test(C.logo))p.set('logo',C.logo);
     if(C.em)p.set('em',C.em);if(C.cid)p.set('cid',C.cid);if(C.vc)p.set('vc',C.vc);if(C.ip)p.set('ip',C.ip);p.set('addr',C.address);
     return location.origin+location.pathname+'?'+p.toString();
@@ -646,7 +646,8 @@ body.signup #kpisD,body.signup #bkSec{display:none}
     if(name.length<3)msg='اكتب اسم العيادة';else if(doc.length<3)msg='اكتب اسم الدكتور';else if(!/^01[0125]\d{8}$/.test(wa))msg='اكتب رقم واتساب مصري صحيح (11 رقم)';else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('sEm')))msg='اكتب إيميل صحيح علشان توصلك الحجوزات';
     var b=$('sSave');
     if(msg){b.textContent=msg;setTimeout(function(){b.textContent='سجّل عيادتي'},2200);return}
-    var rows=readRows();if(!rows.length){b.textContent='ضيف خدمة واحدة على الأقل';setTimeout(function(){b.textContent='سجّل عيادتي'},2200);return}
+    var rows=readRows();if(rows.some(function(r){return !r.p})){b.textContent='اكتب سعر كل خدمة';setTimeout(function(){b.textContent='سجّل عيادتي'},2200);return}
+    if(!rows.length){b.textContent='ضيف خدمة واحدة على الأقل';setTimeout(function(){b.textContent='سجّل عيادتي'},2200);return}
     var lu=val('sLogoU');
     var T={em:val('sEm'),cid:newCid(),clinic:name,doctor:doc,title:val('sSpec')||'طبيب',wa:wa,phones:phs.length?phs:[wa],vc:val('sVc'),ip:val('sIp'),address:val('sAd')||'العنوان يُضاف قريبًا',
       startH:parseInt($('sH1').value)||16,endH:parseInt($('sH2').value)||22,services:rows,logo:/^https?:/.test(lu)?lu:''};
@@ -686,10 +687,10 @@ body.signup #kpisD,body.signup #bkSec{display:none}
       $('admBadge').textContent='تسجيل دكتور جديد';$('admH').textContent='سجّل عيادتك في غزالو';
       $('admP').textContent='املا بيانات عيادتك وابعت طلب الاشتراك. الصفحة بتتفعّل بعد تأكيد الدفع';
       ['sClinic','sDoc','sWa','sEm','sPh','sVc','sIp','sAd','sSpec','sH1','sH2','sLogoU'].forEach(function(i){$(i).value=''});
-      $('sH1').value=16;$('sH2').value=22;
+      window._svBak=CFG.services;CFG.services=[{id:1,ic:'🩺',n:'',d:'',p:'',m:''}];svRows();
       $('sSave').textContent='سجّل عيادتي';$('sOut').style.display='none';$('sPay').style.display='none';$('sCopy').style.display='';
     }
-    if(!signupMode&&wasSignup){
+    if(!signupMode&&wasSignup){if(window._svBak){CFG.services=window._svBak;window._svBak=null;svRows()}
       $('admBadge').textContent=REG?'لوحة الدكتور':'لوحة الدكتور (تجريبية)';$('admH').textContent='حجوزات النهارده';
       $('admP').textContent='كل حجز بيوصلك هنا فورًا ومعاه زر واتساب للمريض';
       $('sClinic').value=CFG.clinic;$('sDoc').value=CFG.doctor;$('sWa').value=CFG.wa;$('sEm').value=CFG.em;$('sPh').value=CFG.phones.join('\n');$('sVc').value=CFG.vc;$('sIp').value=CFG.ip;$('sAd').value=CFG.address;$('sSpec').value=CFG.title;$('sH1').value=CFG.startH;$('sH2').value=CFG.endH;$('sLogoU').value=/^https?:/.test(CFG.logo)?CFG.logo:'';
@@ -700,10 +701,10 @@ body.signup #kpisD,body.signup #bkSec{display:none}
   }
   $('tabP').onclick=function(){show('p')};
   $('tabD').onclick=function(){show('d')};
-  $('goSignup').onclick=function(){show('s')};
-  $('goSignup2').onclick=function(){show('s')};
+  $('goSignup').onclick=function(){location.href='register.html'};
+  $('goSignup2').onclick=function(){location.href='register.html'};
   if(location.hash==='#doctor')show('d');
-  if(location.hash==='#signup')show('s');
+  if(location.hash==='#signup'){show('s');$('brandName').textContent='منصة غزالو للعيادات';$('logoL').textContent='غ'}
   gate();
 })();
 </script>
