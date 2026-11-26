@@ -183,6 +183,7 @@ h2:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--go
 .sv-row>div{min-width:0}
 .sv-row .rm{background:#3a1d1d;color:#ff8c7d;border-radius:10px;height:42px;font-size:16px}
 .sv-h{display:grid;grid-template-columns:1fr 78px 58px 34px;gap:6px;font-size:12px;color:var(--muted);margin-bottom:4px}
+.avatar img{width:100%;height:100%;object-fit:cover;border-radius:28px;display:block}
 .logo img{width:100%;height:100%;object-fit:cover;border-radius:12px}
 body.reg #goSignup2,body.reg #statsD,body.reg #chipsD,body.reg #rateD{display:none}
 body.reg .hero{padding-bottom:40px}
@@ -286,6 +287,8 @@ body.signup .tabs,body.signup #kpisD,body.signup #bkSec{display:none}
         <button class="btn ghost" id="svAdd" type="button" style="width:100%;flex:none;margin-bottom:14px">+ إضافة خدمة</button>
         <div class="field"><label>لوجو العيادة</label><input id="sLogoF" type="file" accept="image/*"><small>اختار صورة من الموبايل (بتتحفظ على جهازك). أو حط لينك صورة تحت علشان يظهر في اللينك المشترك.</small></div>
         <div class="field"><input id="sLogoU" dir="ltr" style="text-align:right" placeholder="https://... لينك صورة اللوجو (اختياري)"></div>
+        <div class="field"><label>صورة الدكتور الشخصية</label><input id="sPhF" type="file" accept="image/*"><small>بتظهر مكان أيقونة الدكتور في صفحة العيادة. أو حط لينك صورة تحت.</small></div>
+        <div class="field"><input id="sPhU" dir="ltr" style="text-align:right" placeholder="https://... لينك صورتك (اختياري)"></div>
         <div class="field"><label>صورة الخلفية لصفحة العيادة</label><input id="sBgF" type="file" accept="image/*"><small>اختار صورة من الموبايل (بتظهر للمرضى في صفحة عيادتك). أو حط لينك صورة تحت.</small></div>
         <div class="field"><input id="sBgU" dir="ltr" style="text-align:right" placeholder="https://... لينك صورة الخلفية (اختياري)"></div>
         <button class="btn" id="sSave" type="button" style="width:100%;flex:none">حفظ وتطبيق</button>
@@ -337,6 +340,7 @@ body.signup .tabs,body.signup #kpisD,body.signup #bkSec{display:none}
     currency: 'جنيه',
     logo: pick('logo',''),
     bg: pick('bg',''),
+    photo: pick('photo',''),
     services: [
       {id:1, ic:'🩺', n:'كشف جديد',            d:'كشف وتشخيص كامل مع خطة علاج', p:400, m:30},
       {id:2, ic:'🔁', n:'إعادة كشف',           d:'خلال 14 يوم من الكشف الأول',   p:200, m:15},
@@ -361,6 +365,7 @@ body.signup .tabs,body.signup #kpisD,body.signup #bkSec{display:none}
     if(CFG.logo){lg.innerHTML='<img alt="" src="'+esc(CFG.logo)+'">';lg.style.background='#10131b'}
     else{lg.textContent=CFG.clinic.replace(/^(عيادة|مركز|د\.)\s*/,'').charAt(0)||'ع';lg.style.background=''}
     var hr=document.querySelector('.hero');if(hr){if(CFG.bg){hr.style.background='linear-gradient(rgba(10,12,17,.55),rgba(10,12,17,.86)),url("'+String(CFG.bg).replace(/["\\\n]/g,'')+'") center/cover no-repeat'}else hr.style.background=''}
+    var av=document.querySelector('.avatar');if(av){if(!window._avSvg)window._avSvg=av.innerHTML;var pic=CFG.photo||CFG.logo;if(pic){av.innerHTML='<img alt="" src="'+esc(pic)+'">';av.style.overflow='hidden'}else{av.innerHTML=window._avSvg;av.style.overflow=''}}
     renderSvc();
     var hf=function(h){var ap=h>=12&&h<24?'م':'ص';return (h%12||12)+' '+ap};
     $('hoursL').textContent=hf(CFG.startH)+' - '+hf(CFG.endH);
@@ -621,15 +626,20 @@ body.signup .tabs,body.signup #kpisD,body.signup #bkSec{display:none}
     var f=this.files&&this.files[0];if(!f)return;var fr=new FileReader();
     fr.onload=function(){var im=new Image();im.onload=function(){var W=720,H=405,c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d');var r=Math.max(W/im.width,H/im.height),w=im.width*r,h=im.height*r;x.drawImage(im,(W-w)/2,(H-h)/2,w,h);var d=c.toDataURL('image/jpeg',.6);CFG.bg=d;window._upBg=d;applyCfg()};im.src=fr.result};fr.readAsDataURL(f);
   });
+  $('sPhF').addEventListener('change',function(){
+    var f=this.files&&this.files[0];if(!f)return;var fr=new FileReader();
+    fr.onload=function(){var im=new Image();im.onload=function(){var c=document.createElement('canvas');c.width=c.height=320;var x=c.getContext('2d');var m=Math.min(im.width,im.height);x.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,320,320);var d=c.toDataURL('image/jpeg',.8);CFG.photo=d;window._upPhoto=d;applyCfg()};im.src=fr.result};fr.readAsDataURL(f);
+  });
   function upImgs(cid,h){
     if(!cid||!h)return;
-    [['logo',window._upLogo],['bg',window._upBg]].forEach(function(k,i){if(!k[1])return;
+    [['logo',window._upLogo],['bg',window._upBg],['photo',window._upPhoto]].forEach(function(k,i){if(!k[1])return;
       setTimeout(function(){try{fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({type:'img',cid:cid,kind:k[0],h:h,data:k[1]})}).catch(function(){})}catch(e){}},i*1500);
     });
-    window._upLogo='';window._upBg='';
+    window._upLogo='';window._upBg='';window._upPhoto='';
   }
   $('sLogoU').value=/^https?:/.test(CFG.logo)?CFG.logo:'';
   $('sBgU').value=/^https?:/.test(CFG.bg)?CFG.bg:'';
+  $('sPhU').value=/^https?:/.test(CFG.photo)?CFG.photo:'';
   $('sClinic').value=CFG.clinic;$('sDoc').value=CFG.doctor;$('sWa').value=CFG.wa;$('sEm').value=CFG.em;$('sPh').value=CFG.phones.join('\n');$('sVc').value=CFG.vc;$('sIp').value=CFG.ip;$('sAd').value=CFG.address;$('sSpec').value=CFG.title;$('sH1').value=CFG.startH;$('sH2').value=CFG.endH;
   function makeLink(C){
     C=C||CFG;
@@ -639,6 +649,7 @@ body.signup .tabs,body.signup #kpisD,body.signup #bkSec{display:none}
     p.set('sv',C.services.map(function(x){return x.n.replace(/[;|]/g,' ')+'|'+x.p+'|'+x.m+'|'+String(x.d||'').replace(/[;|]/g,' ')}).join(';'));
     if(/^https?:/.test(C.logo))p.set('logo',C.logo);
     if(/^https?:/.test(C.bg))p.set('bg',C.bg);
+    if(/^https?:/.test(C.photo))p.set('photo',C.photo);
     if(C.em)p.set('em',C.em);if(C.cid)p.set('cid',C.cid);if(C.vc)p.set('vc',C.vc);if(C.ip)p.set('ip',C.ip);p.set('addr',C.address);
     return location.origin+location.pathname+'?'+p.toString();
   }
@@ -682,7 +693,7 @@ body.signup .tabs,body.signup #kpisD,body.signup #bkSec{display:none}
     if(!rows.length){b.textContent='ضيف خدمة واحدة على الأقل';setTimeout(function(){b.textContent='سجّل عيادتي'},2200);return}
     var lu=val('sLogoU');
     var T={em:val('sEm'),cid:newCid(),clinic:name,doctor:doc,title:val('sSpec')||'طبيب',wa:wa,phones:phs.length?phs:[wa],vc:val('sVc'),ip:val('sIp'),address:val('sAd')||'العنوان يُضاف قريبًا',
-      startH:parseInt($('sH1').value)||16,endH:parseInt($('sH2').value)||22,services:rows,logo:/^https?:/.test(lu)?lu:'',bg:/^https?:/.test(val('sBgU'))?val('sBgU'):''};
+      startH:parseInt($('sH1').value)||16,endH:parseInt($('sH2').value)||22,services:rows,logo:/^https?:/.test(lu)?lu:'',bg:/^https?:/.test(val('sBgU'))?val('sBgU'):'',photo:/^https?:/.test(val('sPhU'))?val('sPhU'):''};
     var link=makeLink(T);postSub(T,link);setTimeout(function(){upImgs(T.cid,window._pwh)},3500);
     $('sOut').style.display='block';$('sOutH').textContent='لينك عيادتك (مش هيشتغل إلا بعد تأكيد الدفع)';
     $('sLink').textContent=link;$('sOpen').style.display='none';$('sDash').style.display='none';$('sCopy').style.display='none';
@@ -700,6 +711,7 @@ body.signup .tabs,body.signup #kpisD,body.signup #bkSec{display:none}
     var ph=$('sPh').value.split(/[,\n]+/).map(function(x){return x.trim()}).filter(Boolean);if(ph.length)CFG.phones=ph;
     var rows=readRows();if(rows.length)CFG.services=rows;svRows();
     var lu=$('sLogoU').value.trim();if(/^https?:/.test(lu)){CFG.logo=lu;logoData='';window._upLogo=''}
+    var pu=$('sPhU').value.trim();if(/^https?:/.test(pu)){CFG.photo=pu;window._upPhoto=''}
     var bu=$('sBgU').value.trim();if(/^https?:/.test(bu)){CFG.bg=bu;window._upBg=''}
     CFG.title=$('sSpec').value.trim()||CFG.title;CFG.startH=parseInt($('sH1').value)||CFG.startH;CFG.endH=parseInt($('sH2').value)||CFG.endH;
     CFG.vc=$('sVc').value.trim();CFG.ip=$('sIp').value.trim();CFG.address=$('sAd').value.trim()||CFG.address;
@@ -740,7 +752,7 @@ body.signup .tabs,body.signup #kpisD,body.signup #bkSec{display:none}
   $('goSignup2').onclick=function(){location.href='./'};
   if(location.hash==='#doctor')show('d');
   if(location.hash==='#signup'){show('s');$('brandName').textContent='منصة غزالو للعيادات';$('logoL').textContent='غ'}
-  if(CFG.cid&&!(/^https?:/.test(CFG.logo)&&/^https?:/.test(CFG.bg))){try{fetch(ENDPOINT+'?act=img&cid='+encodeURIComponent(CFG.cid)+'&_='+Date.now()).then(function(r){return r.json()}).then(function(j){if(!j||!j.ok)return;var ch=false;if(j.logo&&!window._upLogo&&!/^https?:/.test(CFG.logo)){CFG.logo=j.logo;ch=true}if(j.bg&&!window._upBg&&!/^https?:/.test(CFG.bg)){CFG.bg=j.bg;ch=true}if(ch)applyCfg()}).catch(function(){})}catch(e){}}
+  if(CFG.cid&&!(/^https?:/.test(CFG.logo)&&/^https?:/.test(CFG.bg)&&/^https?:/.test(CFG.photo))){try{fetch(ENDPOINT+'?act=img&cid='+encodeURIComponent(CFG.cid)+'&_='+Date.now()).then(function(r){return r.json()}).then(function(j){if(!j||!j.ok)return;var ch=false;if(j.logo&&!window._upLogo&&!/^https?:/.test(CFG.logo)){CFG.logo=j.logo;ch=true}if(j.bg&&!window._upBg&&!/^https?:/.test(CFG.bg)){CFG.bg=j.bg;ch=true}if(j.photo&&!window._upPhoto&&!/^https?:/.test(CFG.photo)){CFG.photo=j.photo;ch=true}if(ch)applyCfg()}).catch(function(){})}catch(e){}}
   gate();
 })();
 </script>
