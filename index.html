@@ -218,7 +218,7 @@ body.signup #kpisD,body.signup #bkSec{display:none}
         </div>
       </div>
       <button class="cta" id="ctaTop" type="button">احجز موعدك الآن</button>
-      <button class="btn ghost" id="goSignup2" type="button" style="width:100%;flex:none;margin-top:10px">🩺 أنت دكتور؟ اشترك بعيادتك على المنصة</button>
+      <button class="btn ghost" id="goSignup2" type="button" style="width:100%;flex:none;margin-top:10px">🩺 أنت دكتور؟ سجّل عيادتك على المنصة</button>
       <div class="cbar" id="cbar"></div>
     </div>
 
@@ -250,7 +250,7 @@ body.signup #kpisD,body.signup #bkSec{display:none}
         <div class="irow"><i>💳</i><div><b>طرق الدفع</b><small id="payL"></small></div></div>
       </div>
     </section>
-    <div class="foot"><span id="footTxt">نسخة تجريبية من <b>منصة غزالو للعيادات</b><br>حجز أونلاين لعيادتك بدون رسائل ومكالمات</span><button class="btn" id="goSignup" type="button" style="width:100%;flex:none;margin-top:16px">أنت دكتور؟ اشترك بعيادتك الآن</button></div>
+    <div class="foot"><span id="footTxt">نسخة تجريبية من <b>منصة غزالو للعيادات</b><br>حجز أونلاين لعيادتك بدون رسائل ومكالمات</span><button class="btn" id="goSignup" type="button" style="width:100%;flex:none;margin-top:16px">أنت دكتور؟ سجّل عيادتك الآن</button></div>
     <div class="fab"><button class="cta" id="ctaFab" type="button">احجز موعدك الآن</button></div>
   </div>
 
@@ -645,8 +645,8 @@ body.signup #kpisD,body.signup #bkSec{display:none}
     var name=val('sClinic'),doc=val('sDoc'),wa=val('sWa').replace(/[\s\-]/g,''),phs=$('sPh').value.split(/[,\n]+/).map(function(x){return x.trim()}).filter(Boolean);
     if(name.length<3)msg='اكتب اسم العيادة';else if(doc.length<3)msg='اكتب اسم الدكتور';else if(!/^01[0125]\d{8}$/.test(wa))msg='اكتب رقم واتساب مصري صحيح (11 رقم)';else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('sEm')))msg='اكتب إيميل صحيح علشان توصلك الحجوزات';
     var b=$('sSave');
-    if(msg){b.textContent=msg;setTimeout(function(){b.textContent='إرسال طلب الاشتراك'},2200);return}
-    var rows=readRows();if(!rows.length){b.textContent='ضيف خدمة واحدة على الأقل';setTimeout(function(){b.textContent='إرسال طلب الاشتراك'},2200);return}
+    if(msg){b.textContent=msg;setTimeout(function(){b.textContent='سجّل عيادتي'},2200);return}
+    var rows=readRows();if(!rows.length){b.textContent='ضيف خدمة واحدة على الأقل';setTimeout(function(){b.textContent='سجّل عيادتي'},2200);return}
     var lu=val('sLogoU');
     var T={em:val('sEm'),cid:newCid(),clinic:name,doctor:doc,title:val('sSpec')||'طبيب',wa:wa,phones:phs.length?phs:[wa],vc:val('sVc'),ip:val('sIp'),address:val('sAd')||'العنوان يُضاف قريبًا',
       startH:parseInt($('sH1').value)||16,endH:parseInt($('sH2').value)||22,services:rows,logo:/^https?:/.test(lu)?lu:''};
@@ -654,10 +654,10 @@ body.signup #kpisD,body.signup #bkSec{display:none}
     $('sOut').style.display='block';$('sOutH').textContent='لينك عيادتك (مش هيشتغل إلا بعد تأكيد الدفع)';
     $('sLink').textContent=link;$('sOpen').style.display='none';$('sDash').style.display='none';$('sCopy').style.display='none';
     $('sPay').style.display='block';
-    $('sPay').innerHTML='<div class="payinfo" style="text-align:right;line-height:2"><b style="color:var(--acc)">طلب الاشتراك اتسجل ✓ الخطوة الجاية: الدفع</b><br><b>الاشتراك:</b> 300 جنيه في الشهر للعيادة<br>• عرض أول 3 دكاترة: 150 جنيه في الشهر<br>• الاشتراك السنوي: 3000 جنيه (شهرين هدية)<br>1) حوّل قيمة الاشتراك على واحدة من الطرق دي:<br>• فودافون كاش: <b dir="ltr">'+PAY_VC+'</b> <button type="button" data-copy="'+PAY_VC+'">نسخ</button><br>• إنستا باي: <b dir="ltr">'+PAY_IP+'</b> <button type="button" data-copy="'+PAY_IP+'">نسخ</button><br>2) ابعت صورة (سكرين شوت) التحويل على واتساب المنصة بالزرار اللي تحت.<br>3) بعد ما نتأكد من الدفع، غزالو بتفعّل عيادتك وصفحة الحجز بتشتغل على اللينك ده.</div>';
+    $('sPay').innerHTML='<div class="payinfo" style="text-align:right;line-height:2"><b style="color:var(--acc)">تم تسجيل عيادتك ✓ الخطوة الجاية: الدفع وتفعيل الصفحة</b><br><b>الاشتراك:</b> 300 جنيه في الشهر للعيادة<br>• عرض أول 3 دكاترة: 150 جنيه في الشهر<br>• الاشتراك السنوي: 3000 جنيه (شهرين هدية)<br>1) حوّل قيمة الاشتراك على واحدة من الطرق دي:<br>• فودافون كاش: <b dir="ltr">'+PAY_VC+'</b> <button type="button" data-copy="'+PAY_VC+'">نسخ</button><br>• إنستا باي: <b dir="ltr">'+PAY_IP+'</b> <button type="button" data-copy="'+PAY_IP+'">نسخ</button><br>2) ابعت صورة (سكرين شوت) التحويل على واتساب المنصة بالزرار اللي تحت.<br>3) بعد ما نتأكد من الدفع، غزالو بتفعّل عيادتك وصفحة الحجز بتشتغل على اللينك ده.</div>';
     var m='السلام عليكم، عايز أشترك في منصة غزالو للعيادات\nالعيادة: '+name+'\nالدكتور: '+doc+'\nواتساب: '+wa+'\nكود العيادة: '+T.cid+'\nمرفق صورة التحويل';
     $('sSend').href='https://wa.me/'+PLATFORM_WA+'?text='+encodeURIComponent(m);$('sSend').textContent='ابعت صورة التحويل على واتساب 💬';$('sSend').style.display='block';
-    b.textContent='تم ✓';setTimeout(function(){b.textContent='إرسال طلب الاشتراك'},1600);
+    b.textContent='تم ✓';setTimeout(function(){b.textContent='سجّل عيادتي'},1600);
     $('sOut').scrollIntoView({behavior:'smooth',block:'center'});
   }
   $('sSave').onclick=function(){
@@ -683,11 +683,11 @@ body.signup #kpisD,body.signup #bkSec{display:none}
     $('admin').style.display=(v==='d'||v==='s')?'block':'none';
     $('tabP').className='tab'+(v==='p'?' on':'');$('tabD').className='tab'+((v==='d'||v==='s')?' on':'');
     if(signupMode&&!wasSignup){
-      $('admBadge').textContent='تسجيل دكتور جديد';$('admH').textContent='اشترك بعيادتك في غزالو';
+      $('admBadge').textContent='تسجيل دكتور جديد';$('admH').textContent='سجّل عيادتك في غزالو';
       $('admP').textContent='املا بيانات عيادتك وابعت طلب الاشتراك. الصفحة بتتفعّل بعد تأكيد الدفع';
       ['sClinic','sDoc','sWa','sEm','sPh','sVc','sIp','sAd','sSpec','sH1','sH2','sLogoU'].forEach(function(i){$(i).value=''});
       $('sH1').value=16;$('sH2').value=22;
-      $('sSave').textContent='إرسال طلب الاشتراك';$('sOut').style.display='none';$('sPay').style.display='none';$('sCopy').style.display='';
+      $('sSave').textContent='سجّل عيادتي';$('sOut').style.display='none';$('sPay').style.display='none';$('sCopy').style.display='';
     }
     if(!signupMode&&wasSignup){
       $('admBadge').textContent=REG?'لوحة الدكتور':'لوحة الدكتور (تجريبية)';$('admH').textContent='حجوزات النهارده';
