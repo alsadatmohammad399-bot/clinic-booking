@@ -249,7 +249,7 @@ body.signup #kpisD,body.signup #bkSec{display:none}
         <div class="irow"><i>💳</i><div><b>طرق الدفع</b><small id="payL"></small></div></div>
       </div>
     </section>
-    <div class="foot"><span id="footTxt">نسخة تجريبية من <b>منصة غزالو للعيادات</b><br>حجز أونلاين لعيادتك بدون رسائل ومكالمات</span><button class="btn" id="goSignup" type="button" style="width:100%;flex:none;margin-top:16px">أنت دكتور؟ سجّل عيادتك الآن</button></div>
+    <div class="foot"><span id="footTxt">نسخة تجريبية من <b>منصة غزالو للعيادات</b><br>حجز أونلاين لعيادتك بدون رسائل ومكالمات</span><button class="btn" id="goSignup" type="button" style="width:100%;flex:none;margin-top:16px">أنت دكتور؟ اشترك بعيادتك الآن</button></div>
     <div class="fab"><button class="cta" id="ctaFab" type="button">احجز موعدك الآن</button></div>
   </div>
 
@@ -284,7 +284,7 @@ body.signup #kpisD,body.signup #bkSec{display:none}
         <div class="field"><label>لوجو العيادة</label><input id="sLogoF" type="file" accept="image/*"><small>اختار صورة من الموبايل (بتتحفظ على جهازك). أو حط لينك صورة تحت علشان يظهر في اللينك المشترك.</small></div>
         <div class="field"><input id="sLogoU" dir="ltr" style="text-align:right" placeholder="https://... لينك صورة اللوجو (اختياري)"></div>
         <button class="btn" id="sSave" type="button" style="width:100%;flex:none">حفظ وتطبيق</button>
-        <div id="sOut" style="display:none"><div class="lbl" id="sOutH">لينك العيادة الجاهز للمشاركة</div><div class="lnk" id="sLink"></div><button class="btn ghost" id="sCopy" type="button" style="width:100%;flex:none">نسخ اللينك</button><a class="btn" id="sOpen" target="_blank" rel="noopener" style="display:none;text-align:center;text-decoration:none;margin-top:10px">فتح صفحة عيادتي</a><div id="sDash" class="lnk" style="display:none"></div><a class="btn wa" id="sSend" target="_blank" rel="noopener" style="display:none;text-align:center;text-decoration:none;margin-top:10px">إرسال بيانات عيادتي لإدارة غزالو</a></div>
+        <div id="sOut" style="display:none"><div class="lbl" id="sOutH">لينك العيادة الجاهز للمشاركة</div><div class="lnk" id="sLink"></div><button class="btn ghost" id="sCopy" type="button" style="width:100%;flex:none">نسخ اللينك</button><a class="btn" id="sOpen" target="_blank" rel="noopener" style="display:none;text-align:center;text-decoration:none;margin-top:10px">فتح صفحة عيادتي</a><div id="sDash" class="lnk" style="display:none"></div><div id="sPay" style="display:none"></div><a class="btn wa" id="sSend" target="_blank" rel="noopener" style="display:none;text-align:center;text-decoration:none;margin-top:10px">إرسال بيانات عيادتي لإدارة غزالو</a></div>
         <small>الدفع كاش في العيادة متاح دايمًا. فودافون كاش وإنستا باي بيظهروا للمريض لما تضيف بياناتهم.</small>
       </div>
     </section>
@@ -309,8 +309,8 @@ body.signup #kpisD,body.signup #bkSec{display:none}
   /* ===== إعدادات العيادة: غيّر هنا فقط لعمل نسخة لأي عيادة =====
      أو من اللينك: ?name=اسم العيادة&doc=اسم الدكتور&wa=20100xxxxxxx */
   var q = new URLSearchParams(location.search);
-  var PLATFORM_WA = (q.get('platform')||'').replace(/\D/g,''); /* رقم واتساب صاحب المنصة لاستقبال طلبات تسجيل الأطباء (ضعه هنا) */
-  var ENDPOINT = q.get('ep')||'https://script.google.com/macros/s/AKfycbxnEEeKarxhPaP5mSKtPwoqsL_ySkUuvxWdUtWO7YSP9GcvvJtHy5XfT6_nMxrdbLxSEQ/exec';
+  var PLATFORM_WA = '201015861991', PAY_VC='01015861991', PAY_IP='ghazal223@instapay'; /* رقم واتساب صاحب المنصة لاستقبال طلبات تسجيل الأطباء (ضعه هنا) */
+  var ENDPOINT = q.get('ep')||'https://script.google.com/macros/s/AKfycbwXK9A7EwgI1CUF6uvubSR7a1vrx5tP347srem5CdMBNENxW4KhGNYo71zJlXoHdGnHfg/exec';
   var REG = !!q.get('name');
   var saved = {};try{saved=JSON.parse(localStorage.getItem('gz_clinic_cfg')||'{}')}catch(e){}
   if(REG)saved={};
@@ -623,6 +623,20 @@ body.signup #kpisD,body.signup #bkSec{display:none}
     return location.origin+location.pathname+'?'+p.toString();
   }
   var signupMode=false;
+  function postSub(T,link){try{fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({type:'subscribe',cid:T.cid,clinic:T.clinic,doctor:T.doctor,phone:T.wa,notify:T.em,link:link})}).catch(function(){})}catch(e){}}
+  function lockUI(msg,showWa){
+    var o=document.getElementById('lockov');if(!o){o=document.createElement('div');o.id='lockov';o.style.cssText='position:fixed;inset:0;z-index:99999;background:#0b0b0d;color:#f5e6b8;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px;gap:18px;font-family:inherit;direction:rtl';document.body.appendChild(o)}
+    o.innerHTML='<div style="font-size:46px">🔒</div><div style="font-size:19px;font-weight:800;line-height:1.8">'+msg+'</div>'+(showWa?'<a class="btn wa" style="text-decoration:none;text-align:center;padding:14px 22px" target="_blank" rel="noopener" href="https://wa.me/'+PLATFORM_WA+'?text='+encodeURIComponent('السلام عليكم، عايز أفعّل عيادتي على غزالو، كود العيادة: '+(CFG.cid||''))+'">تواصل مع غزالو للتفعيل</a>':'');
+  }
+  function gate(){
+    if(!REG)return;
+    if(!CFG.cid){lockUI('الصفحة دي لسه متفعلتش.<br>التفعيل بيتم بعد الاشتراك وتأكيد الدفع من غزالو.',true);return}
+    lockUI('جاري التحقق من تفعيل العيادة…',false);
+    fetch(ENDPOINT+'?cid='+encodeURIComponent(CFG.cid)).then(function(r){return r.json()}).then(function(j){
+      if(j&&j.active){var o=document.getElementById('lockov');if(o)o.remove()}
+      else lockUI('عيادة '+esc(CFG.clinic)+' لسه متفعلتش.<br>الصفحة بتشتغل بعد تأكيد الدفع من غزالو.',true);
+    }).catch(function(){lockUI('مقدرناش نتحقق من التفعيل دلوقتي، افتح اللينك تاني بعد شوية.',false)});
+  }
   function newCid(){return Math.random().toString(36).slice(2,8)+Date.now().toString(36).slice(-3)}
   function val(id){return $(id).value.trim()}
   function signupSave(){
@@ -630,19 +644,19 @@ body.signup #kpisD,body.signup #bkSec{display:none}
     var name=val('sClinic'),doc=val('sDoc'),wa=val('sWa').replace(/[\s\-]/g,''),phs=$('sPh').value.split(/[,\n]+/).map(function(x){return x.trim()}).filter(Boolean);
     if(name.length<3)msg='اكتب اسم العيادة';else if(doc.length<3)msg='اكتب اسم الدكتور';else if(!/^01[0125]\d{8}$/.test(wa))msg='اكتب رقم واتساب مصري صحيح (11 رقم)';else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('sEm')))msg='اكتب إيميل صحيح علشان توصلك الحجوزات';
     var b=$('sSave');
-    if(msg){b.textContent=msg;setTimeout(function(){b.textContent='إنشاء صفحة عيادتي'},2200);return}
-    var rows=readRows();if(!rows.length){b.textContent='ضيف خدمة واحدة على الأقل';setTimeout(function(){b.textContent='إنشاء صفحة عيادتي'},2200);return}
+    if(msg){b.textContent=msg;setTimeout(function(){b.textContent='إرسال طلب الاشتراك'},2200);return}
+    var rows=readRows();if(!rows.length){b.textContent='ضيف خدمة واحدة على الأقل';setTimeout(function(){b.textContent='إرسال طلب الاشتراك'},2200);return}
     var lu=val('sLogoU');
     var T={em:val('sEm'),cid:newCid(),clinic:name,doctor:doc,title:val('sSpec')||'طبيب',wa:wa,phones:phs.length?phs:[wa],vc:val('sVc'),ip:val('sIp'),address:val('sAd')||'العنوان يُضاف قريبًا',
       startH:parseInt($('sH1').value)||16,endH:parseInt($('sH2').value)||22,services:rows,logo:/^https?:/.test(lu)?lu:''};
-    var link=makeLink(T);
-    $('sOut').style.display='block';$('sOutH').textContent='تم إنشاء صفحة عيادتك 🎉 ده لينك الحجز (ابعته لمرضاك وحطه في البايو)';
-    $('sLink').textContent=link;
-    $('sOpen').href=link;$('sOpen').style.display='block';
-    var dash=link+'#doctor';$('sDash').style.display='block';$('sDash').textContent='لوحة حجوزاتك: '+dash;
-    if(PLATFORM_WA){var m='السلام عليكم، سجلت عيادتي على منصة غزالو للعيادات\nالعيادة: '+name+'\nالدكتور: '+doc+'\nواتساب: '+wa+'\nلينك الصفحة: '+link;
-      $('sSend').href='https://wa.me/'+PLATFORM_WA+'?text='+encodeURIComponent(m);$('sSend').style.display='block'}
-    b.textContent='تم ✓';setTimeout(function(){b.textContent='إنشاء صفحة عيادتي'},1600);
+    var link=makeLink(T);postSub(T,link);
+    $('sOut').style.display='block';$('sOutH').textContent='لينك عيادتك (مش هيشتغل إلا بعد تأكيد الدفع)';
+    $('sLink').textContent=link;$('sOpen').style.display='none';$('sDash').style.display='none';$('sCopy').style.display='none';
+    $('sPay').style.display='block';
+    $('sPay').innerHTML='<div class="payinfo" style="text-align:right;line-height:2"><b style="color:var(--acc)">طلب الاشتراك اتسجل ✓ الخطوة الجاية: الدفع</b><br><b>الاشتراك:</b> 300 جنيه في الشهر للعيادة<br>• عرض أول 3 دكاترة: 150 جنيه في الشهر<br>• الاشتراك السنوي: 3000 جنيه (شهرين هدية)<br>1) حوّل قيمة الاشتراك على واحدة من الطرق دي:<br>• فودافون كاش: <b dir="ltr">'+PAY_VC+'</b> <button type="button" data-copy="'+PAY_VC+'">نسخ</button><br>• إنستا باي: <b dir="ltr">'+PAY_IP+'</b> <button type="button" data-copy="'+PAY_IP+'">نسخ</button><br>2) ابعت صورة (سكرين شوت) التحويل على واتساب المنصة بالزرار اللي تحت.<br>3) بعد ما نتأكد من الدفع، غزالو بتفعّل عيادتك وصفحة الحجز بتشتغل على اللينك ده.</div>';
+    var m='السلام عليكم، عايز أشترك في منصة غزالو للعيادات\nالعيادة: '+name+'\nالدكتور: '+doc+'\nواتساب: '+wa+'\nكود العيادة: '+T.cid+'\nمرفق صورة التحويل';
+    $('sSend').href='https://wa.me/'+PLATFORM_WA+'?text='+encodeURIComponent(m);$('sSend').textContent='ابعت صورة التحويل على واتساب 💬';$('sSend').style.display='block';
+    b.textContent='تم ✓';setTimeout(function(){b.textContent='إرسال طلب الاشتراك'},1600);
     $('sOut').scrollIntoView({behavior:'smooth',block:'center'});
   }
   $('sSave').onclick=function(){
@@ -668,11 +682,11 @@ body.signup #kpisD,body.signup #bkSec{display:none}
     $('admin').style.display=(v==='d'||v==='s')?'block':'none';
     $('tabP').className='tab'+(v==='p'?' on':'');$('tabD').className='tab'+((v==='d'||v==='s')?' on':'');
     if(signupMode&&!wasSignup){
-      $('admBadge').textContent='تسجيل دكتور جديد';$('admH').textContent='سجّل عيادتك على غزالو';
-      $('admP').textContent='املا البيانات واحصل على صفحة حجز خاصة بعيادتك ولينك تشاركه مع مرضاك';
+      $('admBadge').textContent='تسجيل دكتور جديد';$('admH').textContent='اشترك بعيادتك في غزالو';
+      $('admP').textContent='املا بيانات عيادتك وابعت طلب الاشتراك. الصفحة بتتفعّل بعد تأكيد الدفع';
       ['sClinic','sDoc','sWa','sEm','sPh','sVc','sIp','sAd','sSpec','sH1','sH2','sLogoU'].forEach(function(i){$(i).value=''});
       $('sH1').value=16;$('sH2').value=22;
-      $('sSave').textContent='إنشاء صفحة عيادتي';$('sOut').style.display='none';
+      $('sSave').textContent='إرسال طلب الاشتراك';$('sOut').style.display='none';$('sPay').style.display='none';$('sCopy').style.display='';
     }
     if(!signupMode&&wasSignup){
       $('admBadge').textContent=REG?'لوحة الدكتور':'لوحة الدكتور (تجريبية)';$('admH').textContent='حجوزات النهارده';
@@ -688,6 +702,7 @@ body.signup #kpisD,body.signup #bkSec{display:none}
   $('goSignup').onclick=function(){show('s')};
   if(location.hash==='#doctor')show('d');
   if(location.hash==='#signup')show('s');
+  gate();
 })();
 </script>
 </body>
