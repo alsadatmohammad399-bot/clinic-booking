@@ -1,0 +1,36 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>لوحة إدارة غزالو</title>
+<style>
+body{margin:0;background:#0b0b0d;color:#f5e6b8;font-family:Tahoma,system-ui,sans-serif;padding:16px;max-width:640px;margin:auto}
+h1{font-size:20px;margin:6px 0 14px;color:#e5c35a}
+.c{background:#15151a;border:1px solid #2c2a22;border-radius:16px;padding:14px;margin-bottom:12px}
+.c b{font-size:17px}.m{color:#a79d80;font-size:13px;line-height:1.9;margin:4px 0}
+.s{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:700}
+.PENDING{background:#4a3c10;color:#ffd35a}.ACTIVE{background:#12432a;color:#4be08d}.INACTIVE{background:#4a1a1a;color:#ff8a8a}
+button,a.b{border:0;border-radius:12px;padding:12px 16px;font:inherit;font-weight:700;cursor:pointer;margin:6px 0 0 8px;text-decoration:none;display:inline-block}
+.on{background:linear-gradient(135deg,#f0d77a,#d4af37);color:#1a1405}.off{background:#3a1d1d;color:#ff9a9a}.cp{background:#25252c;color:#f5e6b8}
+.lk{direction:ltr;text-align:left;font-size:11px;color:#8a8268;word-break:break-all;background:#0e0e11;border-radius:8px;padding:6px;margin-top:6px}
+#msg{text-align:center;color:#a79d80;padding:20px}
+</style></head><body><h1>لوحة إدارة غزالو 🔐</h1><div id="msg">جاري التحميل…</div><div id="list"></div>
+<script>
+var EP='https://script.google.com/macros/s/AKfycbwgAuQs_QFNnzDph9QDCpIYS-k3AXME8wtlULVHibuG2Tdf4lOcHvqg7mnfGgmd_c9rXg/exec',K=decodeURIComponent(location.hash.slice(1));
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+var LBL={PENDING:'في انتظار الدفع',ACTIVE:'مفعّلة',INACTIVE:'موقوفة'};
+function call(q){return fetch(EP+'?k='+encodeURIComponent(K)+q).then(function(r){return r.json()})}
+function draw(j){
+  var m=document.getElementById('msg'),l=document.getElementById('list');
+  if(!j||!j.ok){m.textContent='اللينك غير صحيح';l.innerHTML='';return}
+  m.textContent=j.list.length?('عدد العيادات: '+j.list.length):'لسه مفيش دكاترة سجلوا';
+  l.innerHTML=j.list.map(function(c,i){var w=String(c.wa).replace(/\D/g,'');if(w.length===10)w='0'+w;c.wa=w;
+    return '<div class="c"><b>'+esc(c.clinic)+'</b> <span class="s '+c.status+'">'+LBL[c.status]+'</span><div class="m">'+esc(c.doctor)+' · واتساب '+esc(c.wa)+(c.em?' · '+esc(c.em):'')+'<br>'+esc(c.t)+'</div>'+
+    (c.status==='ACTIVE'?'<button class="off" data-c="'+esc(c.cid)+'" data-s="INACTIVE">إيقاف</button>':'<button class="on" data-c="'+esc(c.cid)+'" data-s="ACTIVE">تفعيل ✓</button>')+
+    '<button class="cp" data-copy="'+i+'">نسخ لينك العيادة</button>'+
+    '<a class="b cp" target="_blank" rel="noopener" href="https://wa.me/2'+esc(c.wa)+'">واتساب الدكتور</a><div class="lk">'+esc(c.link)+'</div></div>'}).join('');
+  window._L=j.list;
+}
+document.addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  if(b.dataset.copy!==undefined){var t=window._L[+b.dataset.copy].link;try{navigator.clipboard.writeText(t)}catch(x){}b.textContent='تم النسخ ✓';return}
+  if(b.dataset.c){b.disabled=true;b.textContent='…';call('&a=set&cid='+encodeURIComponent(b.dataset.c)+'&s='+b.dataset.s).then(draw).catch(function(){b.textContent='فشل، حاول تاني'})}
+});
+call('&a=list').then(draw).catch(function(){document.getElementById('msg').textContent='مشكلة اتصال'});
+</script></body></html>
